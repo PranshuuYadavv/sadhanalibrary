@@ -1,3 +1,6 @@
 .env
 node_modules/
 sadhana.db
+sadhana.db-shm
+sadhana.db-wal
+sadhana.db
