@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Admin Dashboard | Sadhana Library</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+      color: #172033;
+    }
+
+    /* HEADER */
+
+    header {
+      background: linear-gradient(135deg, #102f63, #2862a8);
+      color: white;
+      padding: 18px 6%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-icon {
+      width: 45px;
+      height: 45px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+
+    header h2 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    header p {
+      margin: 3px 0 0;
+      font-size: 12px;
+      opacity: 0.8;
+    }
+
+    .logout {
+      background: rgba(255,255,255,0.12);
+      color: white;
+      padding: 10px 17px;
+      text-decoration: none;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.3);
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .logout:hover {
+      background: rgba(255,255,255,0.22);
+    }
+
+    /* CONTAINER */
+
+    .container {
+      max-width: 1150px;
+      margin: 0 auto;
+      padding: 30px 20px 60px;
+    }
+
+    /* WELCOME */
+
+    .welcome {
+      background: white;
+      padding: 25px;
+      border-radius: 16px;
+      margin-bottom: 25px;
+      border: 1px solid #e5eaf2;
+      box-shadow: 0 6px 20px rgba(25,50,90,0.06);
+    }
+
+    .welcome h2 {
+      margin: 0 0 7px;
+      color: #173b73;
+    }
+
+    .welcome p {
+      margin: 0;
+      color: #718096;
+    }
+
+    /* SUMMARY */
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-bottom: 30px;
+    }
+
+    .summary-card {
+      background: white;
+      padding: 22px 15px;
+      border-radius: 15px;
+      text-align: center;
+      border: 1px solid #e5eaf2;
+      border-top: 4px solid #173b73;
+      box-shadow: 0 6px 20px rgba(25,50,90,0.06);
+      transition: 0.25s;
+    }
+
+    .summary-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 25px rgba(25,50,90,0.1);
+    }
+
+    .summary-card h3 {
+      margin: 0 0 10px;
+      font-size: 14px;
+      color: #667085;
+    }
+
+    .summary-card p {
+      margin: 0;
+      font-size: 31px;
+      font-weight: bold;
+      color: #173b73;
+    }
+
+    /* SECTION TITLE */
+
+    .section-title {
+      margin-bottom: 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      color: #172033;
+      font-size: 24px;
+    }
+
+    .section-title p {
+      margin: 6px 0 0;
+      color: #7a8494;
+      font-size: 14px;
+    }
+
+    /* MANAGEMENT CARDS */
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 16px;
+      border: 1px solid #e5eaf2;
+      box-shadow: 0 6px 20px rgba(25,50,90,0.06);
+      transition: 0.25s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 13px 28px rgba(25,50,90,0.11);
+    }
+
+    .card-icon {
+      width: 55px;
+      height: 55px;
+      border-radius: 14px;
+      background: #edf4ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 27px;
+      margin-bottom: 17px;
+    }
+
+    .card h3 {
+      margin: 0 0 8px;
+      color: #173b73;
+      font-size: 19px;
+    }
+
+    .card p {
+      color: #6b7585;
+      font-size: 14px;
+      line-height: 1.5;
+      min-height: 42px;
+      margin: 0 0 18px;
+    }
+
+    .manage-btn {
+      display: inline-block;
+      background: #173b73;
+      color: white;
+      text-decoration: none;
+      padding: 10px 15px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: bold;
+      transition: 0.2s;
+    }
+
+    .manage-btn:hover {
+      background: #102b55;
+      transform: translateY(-1px);
+    }
+
+    /* FOOTER */
+
+    footer {
+      text-align: center;
+      padding: 22px;
+      color: #7a8494;
+      font-size: 13px;
+    }
+
+    /* TABLET */
+
+    @media (max-width: 900px) {
+      .summary-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .cards {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    /* MOBILE */
+
+    @media (max-width: 550px) {
+      header {
+        padding: 15px;
+      }
+
+      header h2 {
+        font-size: 17px;
+      }
+
+      header p {
+        font-size: 10px;
+      }
+
+      .brand-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 21px;
+      }
+
+      .logout {
+        padding: 8px 12px;
+        font-size: 12px;
+      }
+
+      .container {
+        padding: 20px 12px 40px;
+      }
+
+      .welcome {
+        padding: 20px;
+      }
+
+      .welcome h2 {
+        font-size: 20px;
+      }
+
+      .summary-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+
+      .summary-card {
+        padding: 18px 8px;
+      }
+
+      .summary-card h3 {
+        font-size: 12px;
+      }
+
+      .summary-card p {
+        font-size: 26px;
+      }
+
+      .cards {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+
+      .card {
+        padding: 22px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+
+  <header>
+
+    <div class="brand">
+
+      <div class="brand-icon">
+        📚
+      </div>
+
+      <div>
+        <h2>Sadhana Library</h2>
+        <p>Admin Management Panel</p>
+      </div>
+
+    </div>
+
+    <a class="logout" href="/admin-logout">
+      🚪 Logout
+    </a>
+
+  </header>
+
+
+  <main class="container">
+
+    <!-- WELCOME -->
+
+    <div class="welcome">
+
+      <h2>
+        Welcome, <span id="adminName">Admin</span> 👋
+      </h2>
+
+      <p>
+        यहाँ से Sadhana Library के students, seats,
+        attendance, payments और notices manage करें।
+      </p>
+
+    </div>
+
+
+    <!-- SUMMARY -->
+
+    <div class="summary-grid">
+
+      <div class="summary-card">
+
+        <h3>👨‍🎓 Total Students</h3>
+
+        <p id="totalStudents">0</p>
+
+      </div>
+
+
+      <div class="summary-card">
+
+        <h3>💺 Occupied Seats</h3>
+
+        <p id="occupiedSeats">0</p>
+
+      </div>
+
+
+      <div class="summary-card">
+
+        <h3>💳 Pending Payments</h3>
+
+        <p id="pendingPayments">0</p>
+
+      </div>
+
+
+      <div class="summary-card">
+
+        <h3>📢 Total Notices</h3>
+
+        <p id="totalNotices">0</p>
+
+      </div>
+
+    </div>
+
+
+    <!-- MANAGEMENT -->
+
+    <div class="section-title">
+
+      <h2>⚙️ Management</h2>
+
+      <p>
+        Library के अलग-अलग sections को manage करें।
+      </p>
+
+    </div>
+
+
+    <div class="cards">
+
+
+      <!-- STUDENTS -->
+
+      <div class="card">
+
+        <div class="card-icon">
+          👨‍🎓
+        </div>
+
+        <h3>Students</h3>
+
+        <p>
+          Students की जानकारी, account और seat
+          management करें।
+        </p>
+
+        <a
+          class="manage-btn"
+          href="/students.html"
+        >
+          Manage Students →
+        </a>
+
+      </div>
+
+
+      <!-- SEATS -->
+
+      <div class="card">
+
+        <div class="card-icon">
+          💺
+        </div>
+
+        <h3>Seats</h3>
+
+        <p>
+          Library की seats और occupied/available
+          status देखें।
+        </p>
+
+        <a
+          class="manage-btn"
+          href="/seats.html"
+        >
+          Manage Seats →
+        </a>
+
+      </div>
+
+
+      <!-- ATTENDANCE -->
+
+      <div class="card">
+
+        <div class="card-icon">
+          📅
+        </div>
+
+        <h3>Attendance</h3>
+
+        <p>
+          Students की attendance update और manage करें।
+        </p>
+
+        <a
+          class="manage-btn"
+          href="/attendance.html"
+        >
+          Manage Attendance →
+        </a>
+
+      </div>
+
+
+      <!-- PAYMENTS -->
+
+      <div class="card">
+
+        <div class="card-icon">
+          💳
+        </div>
+
+        <h3>Payments</h3>
+
+        <p>
+          Monthly fees और UTR payment verification करें।
+        </p>
+
+        <a
+          class="manage-btn"
+          href="/payments.html"
+        >
+          Manage Payments →
+        </a>
+
+      </div>
+
+
+      <!-- NOTICES -->
+
+      <div class="card">
+
+        <div class="card-icon">
+          📢
+        </div>
+
+        <h3>Notices</h3>
+
+        <p>
+          Students के लिए important announcements
+          publish करें।
+        </p>
+
+        <a
+          class="manage-btn"
+          href="/notices.html"
+        >
+          Manage Notices →
+        </a>
+
+      </div>
+
+
+    </div>
+
+  </main>
+
+
+  <footer>
+    © 2026 Sadhana Library • Admin Panel
+  </footer>
+
+
+  <script>
+
+    /* ADMIN LOGIN CHECK */
+
+    fetch("/api/admin/me")
+
+      .then(response => {
+
+        if (!response.ok) {
+
+          window.location.href =
+            "/admin-login.html";
+
+          return null;
+        }
+
+        return response.json();
+
+      })
+
+      .then(data => {
+
+        if (
+          data &&
+          data.loggedIn
+        ) {
+
+          document.getElementById(
+            "adminName"
+          ).textContent =
+            data.name;
+
+        }
+
+      })
+
+      .catch(() => {
+
+        window.location.href =
+          "/admin-login.html";
+
+      });
+
+
+    /* SUMMARY */
+
+    async function loadSummary() {
+
+      try {
+
+        const [
+          studentsRes,
+          paymentsRes,
+          noticesRes
+        ] = await Promise.all([
+
+          fetch(
+            "/api/students",
+            { cache: "no-store" }
+          ),
+
+          fetch(
+            "/api/admin/payments",
+            { cache: "no-store" }
+          ),
+
+          fetch(
+            "/api/notices",
+            { cache: "no-store" }
+          )
+
+        ]);
+
+
+        if (
+          !studentsRes.ok ||
+          !paymentsRes.ok ||
+          !noticesRes.ok
+        ) {
+
+          return;
+
+        }
+
+
+        const students =
+          await studentsRes.json();
+
+        const payments =
+          await paymentsRes.json();
+
+        const notices =
+          await noticesRes.json();
+
+
+        /* TOTAL STUDENTS */
+
+        document.getElementById(
+          "totalStudents"
+        ).textContent =
+          students.length;
+
+
+        /* OCCUPIED SEATS */
+
+        const occupiedSeats =
+          students.filter(
+            student =>
+              student.seat_number
+          ).length;
+
+
+        document.getElementById(
+          "occupiedSeats"
+        ).textContent =
+          occupiedSeats;
+
+
+        /* PENDING PAYMENTS */
+
+        const pendingPayments =
+          payments.filter(
+            payment =>
+              payment.status === "Pending"
+          ).length;
+
+
+        document.getElementById(
+          "pendingPayments"
+        ).textContent =
+          pendingPayments;
+
+
+        /* NOTICES */
+
+        document.getElementById(
+          "totalNotices"
+        ).textContent =
+          notices.length;
+
+
+      } catch (error) {
+
+        console.error(
+          "Summary load error:",
+          error
+        );
+
+      }
+
+    }
+
+
+    loadSummary();
+
+  </script>
+
+</body>
+
+</html>

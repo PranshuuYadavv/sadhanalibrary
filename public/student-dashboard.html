@@ -1,0 +1,1548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Student Dashboard - Sadhana Library</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #f4f7fb;
+      color: #1f2937;
+    }
+
+    /* ================= HEADER ================= */
+
+    .header {
+      background: linear-gradient(135deg, #4f46e5, #7c3aed);
+      color: white;
+      padding: 25px 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+    }
+
+    .header-inner {
+      max-width: 1150px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .header h1 {
+      font-size: 26px;
+      margin-bottom: 5px;
+    }
+
+    .header p {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .logout-btn {
+      color: white;
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.45);
+      padding: 10px 16px;
+      border-radius: 10px;
+      font-size: 14px;
+    }
+
+    .logout-btn:hover {
+      background: rgba(255,255,255,0.15);
+    }
+
+    /* ================= CONTAINER ================= */
+
+    .container {
+      max-width: 1150px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    /* ================= WELCOME ================= */
+
+    .welcome {
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 22px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+    }
+
+    .welcome h2 {
+      color: #111827;
+      margin-bottom: 7px;
+    }
+
+    .welcome p {
+      color: #6b7280;
+    }
+
+    /* ================= STATS ================= */
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 25px;
+    }
+
+    .stat-card {
+      background: white;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+    }
+
+    .stat-icon {
+      font-size: 26px;
+      margin-bottom: 10px;
+    }
+
+    .stat-label {
+      color: #6b7280;
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+
+    .stat-value {
+      font-size: 20px;
+      font-weight: 700;
+      color: #111827;
+    }
+
+    /* ================= GRID ================= */
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      margin-bottom: 25px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 22px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+    }
+
+    .card h2 {
+      font-size: 20px;
+      margin-bottom: 18px;
+      color: #111827;
+    }
+
+    /* ================= INFO ================= */
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      padding: 12px 0;
+      border-bottom: 1px solid #eef0f4;
+    }
+
+    .info-row:last-child {
+      border-bottom: none;
+    }
+
+    .info-label {
+      color: #6b7280;
+      font-size: 14px;
+    }
+
+    .info-value {
+      font-weight: 600;
+      text-align: right;
+      color: #111827;
+    }
+
+    /* ================= FEE STATUS ================= */
+
+    .fee-status {
+      padding: 14px;
+      border-radius: 11px;
+      text-align: center;
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+
+    .fee-paid {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .fee-pending {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .fee-rejected {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    /* ================= PAYMENT ================= */
+
+    .upi-box {
+      background: #f5f3ff;
+      border: 1px solid #ddd6fe;
+      padding: 15px;
+      border-radius: 11px;
+      margin-bottom: 18px;
+    }
+
+    .upi-label {
+      color: #6b7280;
+      font-size: 13px;
+      margin-bottom: 5px;
+    }
+
+    .upi-id {
+      font-size: 18px;
+      font-weight: 700;
+      color: #4f46e5;
+      word-break: break-all;
+    }
+
+    .pay-btn {
+      display: block;
+      text-align: center;
+      text-decoration: none;
+      background: #4f46e5;
+      color: white;
+      padding: 12px;
+      border-radius: 10px;
+      font-weight: 600;
+      margin-bottom: 18px;
+    }
+
+    .pay-btn:hover {
+      background: #4338ca;
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #374151;
+    }
+
+    input {
+      width: 100%;
+      padding: 11px 13px;
+      border: 1px solid #d1d5db;
+      border-radius: 9px;
+      outline: none;
+      font-size: 14px;
+    }
+
+    input:focus {
+      border-color: #6366f1;
+      box-shadow: 0 0 0 3px rgba(99,102,241,0.1);
+    }
+
+    .submit-btn {
+      width: 100%;
+      border: none;
+      background: #111827;
+      color: white;
+      padding: 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .submit-btn:hover {
+      background: #000;
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .payment-message {
+      margin-top: 12px;
+      padding: 10px;
+      border-radius: 8px;
+      display: none;
+      font-size: 13px;
+    }
+
+    .payment-message.success {
+      display: block;
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .payment-message.error {
+      display: block;
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    /* ================= NOTICES ================= */
+
+    .notice-list {
+      display: grid;
+      gap: 13px;
+    }
+
+    .notice {
+      border-left: 4px solid #6366f1;
+      background: #f8faff;
+      padding: 14px;
+      border-radius: 8px;
+    }
+
+    .notice-title {
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 5px;
+    }
+
+    .notice-date {
+      font-size: 11px;
+      color: #6b7280;
+      margin-bottom: 8px;
+    }
+
+    .notice-message {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #374151;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    /* ================= PAYMENT HISTORY ================= */
+
+    .history-card {
+      background: white;
+      border-radius: 16px;
+      padding: 22px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+      margin-bottom: 25px;
+    }
+
+    .history-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .history-header h2 {
+      font-size: 20px;
+      color: #111827;
+    }
+
+    .refresh-history {
+      border: 1px solid #d1d5db;
+      background: white;
+      padding: 8px 13px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    .refresh-history:hover {
+      background: #f3f4f6;
+    }
+
+    .table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 700px;
+    }
+
+    th {
+      background: #f8fafc;
+      color: #4b5563;
+      font-size: 13px;
+      text-align: left;
+      padding: 13px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    td {
+      padding: 13px;
+      border-bottom: 1px solid #eef0f4;
+      font-size: 13px;
+      color: #374151;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 5px 9px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .status-pending {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .status-verified {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .status-rejected {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .empty-history {
+      text-align: center;
+      padding: 35px 15px;
+      color: #6b7280;
+    }
+
+    /* ================= FOOTER ================= */
+
+    .footer {
+      text-align: center;
+      color: #6b7280;
+      font-size: 12px;
+      padding: 15px 0 30px;
+    }
+
+    /* ================= MOBILE ================= */
+
+    @media (max-width: 850px) {
+
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+
+      .header-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .logout-btn {
+        width: 100%;
+        text-align: center;
+      }
+
+      .container {
+        padding: 0 12px;
+        margin-top: 20px;
+      }
+
+      .stats {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .stat-card {
+        padding: 15px;
+      }
+
+      .stat-value {
+        font-size: 17px;
+      }
+
+      .card,
+      .history-card,
+      .welcome {
+        padding: 17px;
+      }
+
+      .history-header {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .refresh-history {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ================= HEADER ================= -->
+
+  <header class="header">
+
+    <div class="header-inner">
+
+      <div>
+        <h1>📚 Sadhana Library</h1>
+        <p>Student Dashboard</p>
+      </div>
+
+      <a
+        href="/student-logout"
+        class="logout-btn"
+      >
+        Logout
+      </a>
+
+    </div>
+
+  </header>
+
+
+  <main class="container">
+
+    <!-- ================= WELCOME ================= -->
+
+    <section class="welcome">
+
+      <h2 id="welcomeText">
+        Welcome, Student 👋
+      </h2>
+
+      <p>
+        यहाँ आप अपनी seat, fee, attendance,
+        notices और payment history देख सकते हैं।
+      </p>
+
+    </section>
+
+
+    <!-- ================= STATS ================= -->
+
+    <section class="stats">
+
+      <div class="stat-card">
+
+        <div class="stat-icon">💺</div>
+
+        <div class="stat-label">
+          My Seat
+        </div>
+
+        <div
+          class="stat-value"
+          id="seatNumber"
+        >
+          -
+        </div>
+
+      </div>
+
+
+      <div class="stat-card">
+
+        <div class="stat-icon">💰</div>
+
+        <div class="stat-label">
+          Fee Status
+        </div>
+
+        <div
+          class="stat-value"
+          id="feeStatus"
+        >
+          -
+        </div>
+
+      </div>
+
+
+      <div class="stat-card">
+
+        <div class="stat-icon">📊</div>
+
+        <div class="stat-label">
+          Attendance
+        </div>
+
+        <div
+          class="stat-value"
+          id="attendance"
+        >
+          -
+        </div>
+
+      </div>
+
+
+      <div class="stat-card">
+
+        <div class="stat-icon">📱</div>
+
+        <div class="stat-label">
+          Mobile
+        </div>
+
+        <div
+          class="stat-value"
+          id="mobile"
+        >
+          -
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= MAIN GRID ================= -->
+
+    <section class="grid">
+
+      <!-- STUDENT INFORMATION -->
+
+      <div class="card">
+
+        <h2>👤 My Profile</h2>
+
+        <div class="info-row">
+
+          <span class="info-label">
+            Name
+          </span>
+
+          <span
+            class="info-value"
+            id="studentName"
+          >
+            -
+          </span>
+
+        </div>
+
+
+        <div class="info-row">
+
+          <span class="info-label">
+            Mobile
+          </span>
+
+          <span
+            class="info-value"
+            id="profileMobile"
+          >
+            -
+          </span>
+
+        </div>
+
+
+        <div class="info-row">
+
+          <span class="info-label">
+            Seat Number
+          </span>
+
+          <span
+            class="info-value"
+            id="profileSeat"
+          >
+            -
+          </span>
+
+        </div>
+
+
+        <div class="info-row">
+
+          <span class="info-label">
+            Fee Status
+          </span>
+
+          <span
+            class="info-value"
+            id="profileFee"
+          >
+            -
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <!-- PAYMENT -->
+
+      <div class="card">
+
+        <h2>💳 Pay Monthly Fee</h2>
+
+        <div
+          class="fee-status fee-pending"
+          id="feeBox"
+        >
+          Checking fee status...
+        </div>
+
+
+        <div class="upi-box">
+
+          <div class="upi-label">
+            UPI ID
+          </div>
+
+          <div class="upi-id">
+            pranshu09@jio
+          </div>
+
+        </div>
+
+
+        <a
+          href="upi://pay?pa=pranshu09@jio&pn=Sadhana%20Library"
+          class="pay-btn"
+        >
+          📲 Pay via UPI
+        </a>
+
+
+        <form id="paymentForm">
+
+          <div class="form-group">
+
+            <label for="amount">
+              Amount
+            </label>
+
+            <input
+              type="number"
+              id="amount"
+              placeholder="Enter amount"
+              min="1"
+              step="1"
+              required
+            />
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label for="utr">
+              UTR / Transaction Number
+            </label>
+
+            <input
+              type="text"
+              id="utr"
+              placeholder="Enter UTR number"
+              maxlength="100"
+              required
+            />
+
+          </div>
+
+
+          <button
+            type="submit"
+            class="submit-btn"
+            id="paymentSubmit"
+          >
+            Submit Payment
+          </button>
+
+
+          <div
+            id="paymentMessage"
+            class="payment-message"
+          ></div>
+
+        </form>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= NOTICES ================= -->
+
+    <section class="card">
+
+      <h2>📢 Latest Notices</h2>
+
+      <div
+        id="noticeList"
+        class="notice-list"
+      >
+
+        <div class="empty-history">
+          Loading notices...
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= PAYMENT HISTORY ================= -->
+
+    <section class="history-card">
+
+      <div class="history-header">
+
+        <h2>🧾 Payment History</h2>
+
+        <button
+          class="refresh-history"
+          onclick="loadPaymentHistory()"
+        >
+          🔄 Refresh
+        </button>
+
+      </div>
+
+
+      <div
+        id="paymentHistory"
+        class="table-wrapper"
+      >
+
+        <div class="empty-history">
+          Loading payment history...
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <div class="footer">
+      © Sadhana Library • Pandey Coaching Centre • Kanpur
+    </div>
+
+  </main>
+
+
+  <script>
+
+    // ===============================
+    // ELEMENTS
+    // ===============================
+
+    const welcomeText =
+      document.getElementById("welcomeText");
+
+    const studentName =
+      document.getElementById("studentName");
+
+    const mobile =
+      document.getElementById("mobile");
+
+    const profileMobile =
+      document.getElementById("profileMobile");
+
+    const seatNumber =
+      document.getElementById("seatNumber");
+
+    const profileSeat =
+      document.getElementById("profileSeat");
+
+    const attendance =
+      document.getElementById("attendance");
+
+    const feeStatus =
+      document.getElementById("feeStatus");
+
+    const profileFee =
+      document.getElementById("profileFee");
+
+    const feeBox =
+      document.getElementById("feeBox");
+
+    const paymentForm =
+      document.getElementById("paymentForm");
+
+    const paymentMessage =
+      document.getElementById("paymentMessage");
+
+    const paymentSubmit =
+      document.getElementById("paymentSubmit");
+
+    const noticeList =
+      document.getElementById("noticeList");
+
+    const paymentHistory =
+      document.getElementById("paymentHistory");
+
+
+    // ===============================
+    // FORMAT DATE
+    // ===============================
+
+    function formatIST(dateValue) {
+
+      if (!dateValue) {
+        return "-";
+      }
+
+      const date = new Date(dateValue);
+
+      if (isNaN(date.getTime())) {
+        return dateValue;
+      }
+
+      return new Intl.DateTimeFormat("en-IN", {
+        timeZone: "Asia/Kolkata",
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true
+      }).format(date);
+    }
+
+
+    // ===============================
+    // FEE STATUS
+    // ===============================
+
+    function showFeeStatus(status) {
+
+      const normalized =
+        String(status || "Pending").toLowerCase();
+
+
+      if (
+        normalized === "verified" ||
+        normalized === "paid"
+      ) {
+
+        feeStatus.textContent =
+          "Paid ✅";
+
+        profileFee.textContent =
+          "Paid ✅";
+
+        feeBox.textContent =
+          "Payment Verified ✅";
+
+        feeBox.className =
+          "fee-status fee-paid";
+
+        return;
+      }
+
+
+      if (normalized === "rejected") {
+
+        feeStatus.textContent =
+          "Rejected ❌";
+
+        profileFee.textContent =
+          "Rejected ❌";
+
+        feeBox.textContent =
+          "Payment Rejected ❌";
+
+        feeBox.className =
+          "fee-status fee-rejected";
+
+        return;
+      }
+
+
+      feeStatus.textContent =
+        "Pending ⏳";
+
+      profileFee.textContent =
+        "Pending ⏳";
+
+      feeBox.textContent =
+        "Monthly Fee Pending ⏳";
+
+      feeBox.className =
+        "fee-status fee-pending";
+    }
+
+
+    // ===============================
+    // LOAD STUDENT
+    // ===============================
+
+    async function loadStudent() {
+
+      try {
+
+        const response =
+          await fetch("/api/student/me");
+
+
+        if (response.status === 401) {
+
+          window.location.href =
+            "/student-login.html";
+
+          return;
+        }
+
+
+        const data =
+          await response.json();
+
+
+        if (!data.student) {
+          throw new Error("Student data not found.");
+        }
+
+
+        const student =
+          data.student;
+
+
+        welcomeText.textContent =
+          `Welcome, ${student.name} 👋`;
+
+
+        studentName.textContent =
+          student.name || "-";
+
+
+        mobile.textContent =
+          student.mobile || "-";
+
+
+        profileMobile.textContent =
+          student.mobile || "-";
+
+
+        seatNumber.textContent =
+          student.seat_number || "Not Assigned";
+
+
+        profileSeat.textContent =
+          student.seat_number || "Not Assigned";
+
+
+        attendance.textContent =
+          student.attendance !== null &&
+          student.attendance !== undefined
+            ? `${student.attendance}%`
+            : "0%";
+
+
+        showFeeStatus(
+          student.fee_status
+        );
+
+
+      } catch (error) {
+
+        console.error(error);
+
+        alert(
+          "Student data load नहीं हो सका।"
+        );
+      }
+    }
+
+
+    // ===============================
+    // LOAD NOTICES
+    // ===============================
+
+    async function loadNotices() {
+
+      try {
+
+        const response =
+          await fetch("/api/notices");
+
+
+        if (!response.ok) {
+          throw new Error(
+            "Notices load नहीं हुए।"
+          );
+        }
+
+
+        const data =
+          await response.json();
+
+
+        const notices =
+          Array.isArray(data)
+            ? data
+            : Array.isArray(data.notices)
+              ? data.notices
+              : [];
+
+
+        if (!notices.length) {
+
+          noticeList.innerHTML = `
+            <div class="empty-history">
+              📢 अभी कोई notice उपलब्ध नहीं है।
+            </div>
+          `;
+
+          return;
+        }
+
+
+        noticeList.innerHTML = "";
+
+
+        notices.slice(0, 5).forEach(notice => {
+
+          const item =
+            document.createElement("div");
+
+          item.className =
+            "notice";
+
+
+          const title =
+            document.createElement("div");
+
+          title.className =
+            "notice-title";
+
+          title.textContent =
+            notice.title || "Notice";
+
+
+          const date =
+            document.createElement("div");
+
+          date.className =
+            "notice-date";
+
+          date.textContent =
+            "📅 " +
+            formatIST(notice.created_at);
+
+
+          const message =
+            document.createElement("div");
+
+          message.className =
+            "notice-message";
+
+          message.textContent =
+            notice.message || "";
+
+
+          item.appendChild(title);
+
+          item.appendChild(date);
+
+          item.appendChild(message);
+
+
+          noticeList.appendChild(item);
+
+        });
+
+
+      } catch (error) {
+
+        console.error(error);
+
+        noticeList.innerHTML = `
+          <div class="empty-history">
+            ⚠️ Notices load नहीं हो सके।
+          </div>
+        `;
+      }
+    }
+
+
+    // ===============================
+    // PAYMENT HISTORY
+    // ===============================
+
+    async function loadPaymentHistory() {
+
+      paymentHistory.innerHTML = `
+        <div class="empty-history">
+          Loading payment history...
+        </div>
+      `;
+
+
+      try {
+
+        const response =
+          await fetch("/api/student/payments");
+
+
+        if (response.status === 401) {
+
+          window.location.href =
+            "/student-login.html";
+
+          return;
+        }
+
+
+        const data =
+          await response.json();
+
+
+        if (!response.ok) {
+
+          throw new Error(
+            data.error ||
+            "Payment history load नहीं हुई।"
+          );
+        }
+
+
+        const payments =
+          Array.isArray(data)
+            ? data
+            : Array.isArray(data.payments)
+              ? data.payments
+              : [];
+
+
+        if (!payments.length) {
+
+          paymentHistory.innerHTML = `
+            <div class="empty-history">
+              🧾 अभी कोई payment history उपलब्ध नहीं है।
+            </div>
+          `;
+
+          return;
+        }
+
+
+        let html = `
+          <table>
+
+            <thead>
+
+              <tr>
+                <th>#</th>
+                <th>Amount</th>
+                <th>Month</th>
+                <th>UTR</th>
+                <th>Status</th>
+                <th>Date</th>
+              </tr>
+
+            </thead>
+
+            <tbody>
+        `;
+
+
+        payments.forEach((payment, index) => {
+
+          let statusClass =
+            "status-pending";
+
+          let statusText =
+            "Pending ⏳";
+
+
+          if (
+            payment.status === "Verified"
+          ) {
+
+            statusClass =
+              "status-verified";
+
+            statusText =
+              "Verified ✅";
+
+          } else if (
+            payment.status === "Rejected"
+          ) {
+
+            statusClass =
+              "status-rejected";
+
+            statusText =
+              "Rejected ❌";
+          }
+
+
+          html += `
+
+            <tr>
+
+              <td>
+                ${index + 1}
+              </td>
+
+              <td>
+                ₹${Number(
+                  payment.amount || 0
+                ).toLocaleString("en-IN")}
+              </td>
+
+              <td>
+                ${payment.payment_month || "-"}
+              </td>
+
+              <td>
+                ${escapeHTML(
+                  payment.utr || "-"
+                )}
+              </td>
+
+              <td>
+                <span
+                  class="status ${statusClass}"
+                >
+                  ${statusText}
+                </span>
+              </td>
+
+              <td>
+                ${formatIST(
+                  payment.created_at
+                )}
+              </td>
+
+            </tr>
+
+          `;
+        });
+
+
+        html += `
+            </tbody>
+          </table>
+        `;
+
+
+        paymentHistory.innerHTML =
+          html;
+
+
+      } catch (error) {
+
+        console.error(error);
+
+        paymentHistory.innerHTML = `
+          <div class="empty-history">
+            ⚠️ Payment history load नहीं हो सकी।
+            <br><br>
+            <button
+              class="refresh-history"
+              onclick="loadPaymentHistory()"
+            >
+              Try Again
+            </button>
+          </div>
+        `;
+      }
+    }
+
+
+    // ===============================
+    // HTML ESCAPE
+    // ===============================
+
+    function escapeHTML(value) {
+
+      const div =
+        document.createElement("div");
+
+      div.textContent =
+        value;
+
+      return div.innerHTML;
+    }
+
+
+    // ===============================
+    // PAYMENT SUBMIT
+    // ===============================
+
+    paymentForm.addEventListener(
+      "submit",
+      async function(event) {
+
+        event.preventDefault();
+
+
+        const amount =
+          document.getElementById("amount")
+            .value
+            .trim();
+
+
+        const utr =
+          document.getElementById("utr")
+            .value
+            .trim();
+
+
+        if (!amount || !utr) {
+
+          showPaymentMessage(
+            "Amount और UTR दोनों भरें।",
+            "error"
+          );
+
+          return;
+        }
+
+
+        paymentSubmit.disabled =
+          true;
+
+        paymentSubmit.textContent =
+          "Submitting...";
+
+
+        try {
+
+          const response =
+            await fetch(
+              "/api/payments",
+              {
+                method: "POST",
+
+                headers: {
+                  "Content-Type":
+                    "application/json"
+                },
+
+                body: JSON.stringify({
+                  amount,
+                  utr
+                })
+              }
+            );
+
+
+          const data =
+            await response
+              .json()
+              .catch(() => ({}));
+
+
+          if (response.status === 401) {
+
+            window.location.href =
+              "/student-login.html";
+
+            return;
+          }
+
+
+          if (!response.ok) {
+
+            throw new Error(
+              data.error ||
+              "Payment submit नहीं हो सका।"
+            );
+          }
+
+
+          showPaymentMessage(
+            data.message ||
+            "Payment successfully submitted ✅",
+            "success"
+          );
+
+
+          paymentForm.reset();
+
+
+          await loadPaymentHistory();
+
+          await loadStudent();
+
+
+        } catch (error) {
+
+          console.error(error);
+
+          showPaymentMessage(
+            error.message ||
+            "Payment submit करने में error आया।",
+            "error"
+          );
+
+        } finally {
+
+          paymentSubmit.disabled =
+            false;
+
+          paymentSubmit.textContent =
+            "Submit Payment";
+        }
+
+      }
+    );
+
+
+    // ===============================
+    // PAYMENT MESSAGE
+    // ===============================
+
+    function showPaymentMessage(
+      text,
+      type
+    ) {
+
+      paymentMessage.textContent =
+        text;
+
+      paymentMessage.className =
+        "payment-message " + type;
+
+
+      setTimeout(() => {
+
+        paymentMessage.textContent =
+          "";
+
+        paymentMessage.className =
+          "payment-message";
+
+      }, 5000);
+    }
+
+
+    // ===============================
+    // INITIAL LOAD
+    // ===============================
+
+    loadStudent();
+
+    loadNotices();
+
+    loadPaymentHistory();
+
+  </script>
+
+</body>
+</html> 

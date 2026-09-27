@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Seats - Sadhana Library</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f7fb;
+      color: #1f2937;
+    }
+
+    /* =========================
+       HEADER
+    ========================== */
+
+    .header {
+      background: linear-gradient(135deg, #173b73, #2563eb);
+      color: white;
+      padding: 22px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.12);
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 26px;
+    }
+
+    .header p {
+      margin: 6px 0 0;
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .back-btn {
+      text-decoration: none;
+      color: white;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      padding: 11px 17px;
+      border-radius: 10px;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+
+    .back-btn:hover {
+      background: rgba(255,255,255,0.25);
+    }
+
+    /* =========================
+       CONTAINER
+    ========================== */
+
+    .container {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    /* =========================
+       TITLE
+    ========================== */
+
+    .page-title {
+      margin-bottom: 22px;
+    }
+
+    .page-title h2 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    .page-title p {
+      margin: 7px 0 0;
+      color: #64748b;
+      font-size: 14px;
+    }
+
+    /* =========================
+       SUMMARY
+    ========================== */
+
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-bottom: 25px;
+    }
+
+    .summary-card {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      border: 1px solid #e8edf5;
+      box-shadow: 0 7px 22px rgba(15, 23, 42, 0.06);
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .summary-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 23px;
+      background: #eef4ff;
+    }
+
+    .summary-card h3 {
+      margin: 0;
+      font-size: 25px;
+    }
+
+    .summary-card p {
+      margin: 4px 0 0;
+      color: #64748b;
+      font-size: 13px;
+    }
+
+    /* =========================
+       LEGEND
+    ========================== */
+
+    .legend-card {
+      background: white;
+      border: 1px solid #e8edf5;
+      box-shadow: 0 7px 22px rgba(15, 23, 42, 0.06);
+      border-radius: 16px;
+      padding: 18px 20px;
+      margin-bottom: 20px;
+
+      display: flex;
+      align-items: center;
+      gap: 25px;
+      flex-wrap: wrap;
+    }
+
+    .legend-title {
+      font-weight: bold;
+      margin-right: 5px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: #475569;
+    }
+
+    .legend-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 4px;
+    }
+
+    .green {
+      background: #22c55e;
+    }
+
+    .red {
+      background: #ef4444;
+    }
+
+    /* =========================
+       SEAT CARD
+    ========================== */
+
+    .seat-card {
+      background: white;
+      border-radius: 18px;
+      padding: 22px;
+      border: 1px solid #e8edf5;
+      box-shadow: 0 8px 25px rgba(15, 23, 42, 0.07);
+    }
+
+    .seat-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .seat-card-header h2 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    .seat-card-header span {
+      color: #64748b;
+      font-size: 13px;
+    }
+
+    /* =========================
+       SEATS GRID
+    ========================== */
+
+    .seats {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 13px;
+    }
+
+    .seat {
+      min-height: 95px;
+      padding: 15px 8px;
+      border-radius: 13px;
+      text-align: center;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      transition: 0.2s;
+      border: 1px solid transparent;
+    }
+
+    .seat:hover {
+      transform: translateY(-2px);
+    }
+
+    .available {
+      background: #ecfdf5;
+      color: #166534;
+      border-color: #bbf7d0;
+    }
+
+    .occupied {
+      background: #fef2f2;
+      color: #991b1b;
+      border-color: #fecaca;
+    }
+
+    .seat-number {
+      font-size: 19px;
+      font-weight: bold;
+    }
+
+    .student-name {
+      font-size: 11px;
+      margin-top: 7px;
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* =========================
+       MOBILE
+    ========================== */
+
+    @media (max-width: 900px) {
+
+      .seats {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .summary {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 650px) {
+
+      .header {
+        padding: 20px;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .header h1 {
+        font-size: 22px;
+      }
+
+      .back-btn {
+        width: 100%;
+        text-align: center;
+      }
+
+      .container {
+        margin: 20px auto;
+        padding: 0 12px;
+      }
+
+      .summary {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .summary-card {
+        padding: 16px;
+      }
+
+      .legend-card {
+        gap: 12px;
+      }
+
+      .seat-card {
+        padding: 15px;
+      }
+
+      .seats {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 9px;
+      }
+
+      .seat {
+        min-height: 82px;
+        padding: 10px 5px;
+      }
+
+      .seat-number {
+        font-size: 16px;
+      }
+
+      .student-name {
+        font-size: 10px;
+      }
+    }
+
+    @media (max-width: 400px) {
+
+      .seats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- =========================
+       HEADER
+  ========================== -->
+
+  <header class="header">
+
+    <div>
+      <h1>📚 Sadhana Library</h1>
+      <p>Seat Management System</p>
+    </div>
+
+    <a
+      href="/admin-dashboard.html"
+      class="back-btn">
+      ← Back to Dashboard
+    </a>
+
+  </header>
+
+
+  <!-- =========================
+       MAIN
+  ========================== -->
+
+  <main class="container">
+
+
+    <div class="page-title">
+
+      <h2>💺 Seat Management</h2>
+
+      <p>
+        Library की सभी seats की current स्थिति यहाँ देखें।
+      </p>
+
+    </div>
+
+
+    <!-- =========================
+         SUMMARY
+    ========================== -->
+
+    <section class="summary">
+
+      <div class="summary-card">
+
+        <div class="summary-icon">
+          💺
+        </div>
+
+        <div>
+          <h3 id="totalSeats">52</h3>
+          <p>Total Seats</p>
+        </div>
+
+      </div>
+
+
+      <div class="summary-card">
+
+        <div class="summary-icon">
+          🔴
+        </div>
+
+        <div>
+          <h3 id="occupiedSeats">0</h3>
+          <p>Occupied Seats</p>
+        </div>
+
+      </div>
+
+
+      <div class="summary-card">
+
+        <div class="summary-icon">
+          🟢
+        </div>
+
+        <div>
+          <h3 id="availableSeats">52</h3>
+          <p>Available Seats</p>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         LEGEND
+    ========================== -->
+
+    <div class="legend-card">
+
+      <span class="legend-title">
+        Seat Status:
+      </span>
+
+      <div class="legend-item">
+
+        <span class="legend-dot green"></span>
+
+        Available
+
+      </div>
+
+      <div class="legend-item">
+
+        <span class="legend-dot red"></span>
+
+        Occupied
+
+      </div>
+
+    </div>
+
+
+    <!-- =========================
+         SEAT GRID
+    ========================== -->
+
+    <section class="seat-card">
+
+      <div class="seat-card-header">
+
+        <h2>All Seats</h2>
+
+        <span>
+          1–52
+        </span>
+
+      </div>
+
+
+      <div
+        class="seats"
+        id="seatContainer">
+
+        Loading...
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <script>
+
+    // =========================
+    // LOAD SEATS
+    // =========================
+
+    async function loadSeats() {
+
+      try {
+
+        const response =
+          await fetch(
+            "/api/students",
+            {
+              cache: "no-store"
+            }
+          );
+
+
+        if (response.status === 401) {
+
+          window.location.href =
+            "/admin-login.html";
+
+          return;
+
+        }
+
+
+        if (!response.ok) {
+
+          throw new Error(
+            "Students load नहीं हुए।"
+          );
+
+        }
+
+
+        const students =
+          await response.json();
+
+
+        const totalSeats = 52;
+
+        const occupiedMap = {};
+
+
+        students.forEach(student => {
+
+          if (student.seat_number) {
+
+            occupiedMap[
+              String(student.seat_number)
+            ] = student.name;
+
+          }
+
+        });
+
+
+        let occupied = 0;
+
+        let html = "";
+
+
+        for (
+          let seat = 1;
+          seat <= totalSeats;
+          seat++
+        ) {
+
+          const student =
+            occupiedMap[String(seat)];
+
+
+          if (student) {
+
+            occupied++;
+
+
+            html += `
+
+              <div class="seat occupied">
+
+                <div class="seat-number">
+                  💺 ${seat}
+                </div>
+
+                <div class="student-name">
+                  ${escapeHtml(student)}
+                </div>
+
+              </div>
+
+            `;
+
+          }
+
+          else {
+
+            html += `
+
+              <div class="seat available">
+
+                <div class="seat-number">
+                  💺 ${seat}
+                </div>
+
+                <div class="student-name">
+                  Available
+                </div>
+
+              </div>
+
+            `;
+
+          }
+
+        }
+
+
+        document.getElementById(
+          "seatContainer"
+        ).innerHTML = html;
+
+
+        document.getElementById(
+          "totalSeats"
+        ).textContent = totalSeats;
+
+
+        document.getElementById(
+          "occupiedSeats"
+        ).textContent = occupied;
+
+
+        document.getElementById(
+          "availableSeats"
+        ).textContent =
+          totalSeats - occupied;
+
+
+      }
+
+      catch (error) {
+
+        console.error(error);
+
+
+        document.getElementById(
+          "seatContainer"
+        ).innerHTML = `
+
+          <div style="
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 35px;
+            color: #dc2626;
+            font-weight: bold;
+          ">
+
+            ❌ Seats load नहीं हो सकीं।
+
+          </div>
+
+        `;
+
+      }
+
+    }
+
+
+    // =========================
+    // HTML SECURITY
+    // =========================
+
+    function escapeHtml(value) {
+
+      const div =
+        document.createElement("div");
+
+      div.textContent =
+        value ?? "";
+
+      return div.innerHTML;
+
+    }
+
+
+    // =========================
+    // START
+    // =========================
+
+    loadSeats();
+
+  </script>
+
+</body>
+</html>

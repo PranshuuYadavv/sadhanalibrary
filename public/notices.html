@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Notices - Sadhana Library</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #f4f7fb;
+      color: #1f2937;
+    }
+
+    /* HEADER */
+    .header {
+      background: linear-gradient(135deg, #4f46e5, #7c3aed);
+      color: white;
+      padding: 24px 20px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+    }
+
+    .header-inner {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .header h1 {
+      font-size: 28px;
+      margin-bottom: 5px;
+    }
+
+    .header p {
+      opacity: 0.9;
+      font-size: 14px;
+    }
+
+    .back-btn {
+      text-decoration: none;
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      padding: 10px 16px;
+      border-radius: 10px;
+      font-size: 14px;
+      transition: 0.2s;
+      white-space: nowrap;
+    }
+
+    .back-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    /* MAIN */
+    .container {
+      max-width: 1100px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    /* CREATE NOTICE */
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.07);
+      margin-bottom: 25px;
+    }
+
+    .card h2 {
+      font-size: 20px;
+      margin-bottom: 20px;
+      color: #111827;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 7px;
+      color: #374151;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: 15px;
+      outline: none;
+      transition: 0.2s;
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: #6366f1;
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 10px;
+      padding: 12px 20px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .btn-primary {
+      background: #4f46e5;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #4338ca;
+    }
+
+    .btn-danger {
+      background: #ef4444;
+      color: white;
+      padding: 9px 14px;
+      font-size: 13px;
+    }
+
+    .btn-danger:hover {
+      background: #dc2626;
+    }
+
+    .message {
+      margin-top: 12px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      display: none;
+      font-size: 14px;
+    }
+
+    .message.success {
+      display: block;
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .message.error {
+      display: block;
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    /* NOTICE LIST */
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      gap: 10px;
+    }
+
+    .section-header h2 {
+      font-size: 21px;
+      color: #111827;
+    }
+
+    .refresh-btn {
+      border: 1px solid #d1d5db;
+      background: white;
+      color: #374151;
+      padding: 9px 14px;
+      border-radius: 9px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    .refresh-btn:hover {
+      background: #f3f4f6;
+    }
+
+    .notice-list {
+      display: grid;
+      gap: 15px;
+    }
+
+    .notice {
+      background: white;
+      border-radius: 14px;
+      padding: 20px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+      border-left: 5px solid #6366f1;
+    }
+
+    .notice-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 15px;
+    }
+
+    .notice-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 7px;
+    }
+
+    .notice-date {
+      font-size: 12px;
+      color: #6b7280;
+      margin-bottom: 13px;
+    }
+
+    .notice-message {
+      font-size: 15px;
+      line-height: 1.7;
+      color: #374151;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .empty {
+      background: white;
+      border-radius: 14px;
+      padding: 40px 20px;
+      text-align: center;
+      color: #6b7280;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .empty-icon {
+      font-size: 40px;
+      margin-bottom: 10px;
+    }
+
+    .loading {
+      background: white;
+      border-radius: 14px;
+      padding: 30px;
+      text-align: center;
+      color: #6b7280;
+    }
+
+    /* MOBILE */
+    @media (max-width: 700px) {
+      .header-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .back-btn {
+        width: 100%;
+        text-align: center;
+      }
+
+      .container {
+        margin-top: 20px;
+        padding: 0 12px;
+      }
+
+      .card {
+        padding: 18px;
+      }
+
+      .notice {
+        padding: 16px;
+      }
+
+      .notice-top {
+        flex-direction: column;
+      }
+
+      .btn-danger {
+        width: 100%;
+      }
+
+      .section-header {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .refresh-btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-inner">
+
+      <div>
+        <h1>📢 Notices</h1>
+        <p>Sadhana Library • Notice Management</p>
+      </div>
+
+      <a href="/admin-dashboard.html" class="back-btn">
+        ← Back to Dashboard
+      </a>
+
+    </div>
+  </header>
+
+
+  <main class="container">
+
+    <!-- CREATE NOTICE -->
+    <section class="card">
+
+      <h2>➕ Create New Notice</h2>
+
+      <form id="noticeForm">
+
+        <div class="form-group">
+          <label for="title">Notice Title</label>
+
+          <input
+            type="text"
+            id="title"
+            placeholder="Enter notice title"
+            maxlength="150"
+            required
+          />
+        </div>
+
+
+        <div class="form-group">
+          <label for="message">Notice Message</label>
+
+          <textarea
+            id="message"
+            placeholder="Write your notice here..."
+            maxlength="2000"
+            required
+          ></textarea>
+        </div>
+
+
+        <button
+          type="submit"
+          class="btn btn-primary"
+          id="submitBtn"
+        >
+          Publish Notice
+        </button>
+
+        <div id="formMessage" class="message"></div>
+
+      </form>
+
+    </section>
+
+
+    <!-- NOTICE LIST -->
+    <section>
+
+      <div class="section-header">
+
+        <h2>📋 All Notices</h2>
+
+        <button
+          class="refresh-btn"
+          onclick="loadNotices()"
+        >
+          🔄 Refresh
+        </button>
+
+      </div>
+
+
+      <div id="noticeList" class="notice-list">
+
+        <div class="loading">
+          Loading notices...
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <script>
+
+    const noticeForm = document.getElementById("noticeForm");
+    const titleInput = document.getElementById("title");
+    const messageInput = document.getElementById("message");
+    const formMessage = document.getElementById("formMessage");
+    const submitBtn = document.getElementById("submitBtn");
+    const noticeList = document.getElementById("noticeList");
+
+
+    /* --------------------------------
+       IST DATE FORMAT
+    -------------------------------- */
+
+    function formatIST(dateValue) {
+
+      if (!dateValue) {
+        return "Date unavailable";
+      }
+
+      const date = new Date(dateValue);
+
+      if (isNaN(date.getTime())) {
+        return dateValue;
+      }
+
+      return new Intl.DateTimeFormat("en-IN", {
+        timeZone: "Asia/Kolkata",
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true
+      }).format(date);
+    }
+
+
+    /* --------------------------------
+       SHOW MESSAGE
+    -------------------------------- */
+
+    function showMessage(text, type) {
+
+      formMessage.textContent = text;
+
+      formMessage.className = "message " + type;
+
+      setTimeout(() => {
+        formMessage.className = "message";
+        formMessage.textContent = "";
+      }, 4000);
+    }
+
+
+    /* --------------------------------
+       LOAD NOTICES
+    -------------------------------- */
+
+    async function loadNotices() {
+
+      noticeList.innerHTML = `
+        <div class="loading">
+          Loading notices...
+        </div>
+      `;
+
+      try {
+
+        const response = await fetch("/api/notices");
+
+        if (!response.ok) {
+
+          if (response.status === 401) {
+            window.location.href = "/admin-login.html";
+            return;
+          }
+
+          throw new Error("Failed to load notices.");
+        }
+
+
+        const data = await response.json();
+
+
+        /*
+          API may return:
+          - array directly
+          - { notices: [...] }
+        */
+
+        const notices = Array.isArray(data)
+          ? data
+          : Array.isArray(data.notices)
+            ? data.notices
+            : [];
+
+
+        renderNotices(notices);
+
+      } catch (error) {
+
+        console.error(error);
+
+        noticeList.innerHTML = `
+          <div class="empty">
+            <div class="empty-icon">⚠️</div>
+            <p>Unable to load notices.</p>
+            <br>
+            <button
+              class="refresh-btn"
+              onclick="loadNotices()"
+            >
+              Try Again
+            </button>
+          </div>
+        `;
+      }
+    }
+
+
+    /* --------------------------------
+       RENDER NOTICES
+    -------------------------------- */
+
+    function renderNotices(notices) {
+
+      if (!notices.length) {
+
+        noticeList.innerHTML = `
+          <div class="empty">
+            <div class="empty-icon">📢</div>
+            <p>No notices available.</p>
+          </div>
+        `;
+
+        return;
+      }
+
+
+      noticeList.innerHTML = "";
+
+
+      notices.forEach(notice => {
+
+        const noticeElement = document.createElement("div");
+
+        noticeElement.className = "notice";
+
+
+        const top = document.createElement("div");
+
+        top.className = "notice-top";
+
+
+        const content = document.createElement("div");
+
+        content.style.flex = "1";
+
+
+        const title = document.createElement("div");
+
+        title.className = "notice-title";
+
+        title.textContent =
+          notice.title || "Untitled Notice";
+
+
+        const date = document.createElement("div");
+
+        date.className = "notice-date";
+
+        date.textContent =
+          "📅 " + formatIST(notice.created_at);
+
+
+        const message = document.createElement("div");
+
+        message.className = "notice-message";
+
+        message.textContent =
+          notice.message || "";
+
+
+        content.appendChild(title);
+
+        content.appendChild(date);
+
+        content.appendChild(message);
+
+
+        const deleteButton = document.createElement("button");
+
+        deleteButton.className =
+          "btn btn-danger";
+
+        deleteButton.textContent =
+          "🗑 Delete";
+
+
+        deleteButton.onclick = () => {
+
+          deleteNotice(notice.id);
+
+        };
+
+
+        top.appendChild(content);
+
+        top.appendChild(deleteButton);
+
+
+        noticeElement.appendChild(top);
+
+        noticeList.appendChild(noticeElement);
+
+      });
+
+    }
+
+
+    /* --------------------------------
+       CREATE NOTICE
+    -------------------------------- */
+
+    noticeForm.addEventListener(
+      "submit",
+      async function (event) {
+
+        event.preventDefault();
+
+
+        const title =
+          titleInput.value.trim();
+
+        const message =
+          messageInput.value.trim();
+
+
+        if (!title || !message) {
+
+          showMessage(
+            "Title और message दोनों जरूरी हैं।",
+            "error"
+          );
+
+          return;
+        }
+
+
+        submitBtn.disabled = true;
+
+        submitBtn.textContent =
+          "Publishing...";
+
+
+        try {
+
+          const response = await fetch(
+            "/api/admin/notices",
+            {
+              method: "POST",
+
+              headers: {
+                "Content-Type": "application/json"
+              },
+
+              body: JSON.stringify({
+                title,
+                message
+              })
+            }
+          );
+
+
+          const data =
+            await response.json().catch(() => ({}));
+
+
+          if (!response.ok) {
+
+            if (response.status === 401) {
+              window.location.href =
+                "/admin-login.html";
+              return;
+            }
+
+            throw new Error(
+              data.error ||
+              "Notice create नहीं हो सकी।"
+            );
+          }
+
+
+          showMessage(
+            "Notice successfully published ✅",
+            "success"
+          );
+
+
+          noticeForm.reset();
+
+
+          await loadNotices();
+
+
+        } catch (error) {
+
+          console.error(error);
+
+          showMessage(
+            error.message ||
+            "Notice create करने में error आया।",
+            "error"
+          );
+
+        } finally {
+
+          submitBtn.disabled = false;
+
+          submitBtn.textContent =
+            "Publish Notice";
+
+        }
+
+      }
+    );
+
+
+    /* --------------------------------
+       DELETE NOTICE
+    -------------------------------- */
+
+    async function deleteNotice(id) {
+
+      if (!id) {
+        return;
+      }
+
+
+      const confirmed =
+        confirm(
+          "क्या आप इस notice को delete करना चाहते हैं?"
+        );
+
+
+      if (!confirmed) {
+        return;
+      }
+
+
+      try {
+
+        const response = await fetch(
+          `/api/admin/notices/${id}`,
+          {
+            method: "DELETE"
+          }
+        );
+
+
+        const data =
+          await response.json().catch(() => ({}));
+
+
+        if (!response.ok) {
+
+          if (response.status === 401) {
+            window.location.href =
+              "/admin-login.html";
+            return;
+          }
+
+          throw new Error(
+            data.error ||
+            "Notice delete नहीं हो सकी।"
+          );
+        }
+
+
+        await loadNotices();
+
+
+      } catch (error) {
+
+        console.error(error);
+
+        alert(
+          error.message ||
+          "Notice delete करने में error आया।"
+        );
+
+      }
+
+    }
+
+
+    /* --------------------------------
+       INITIAL LOAD
+    -------------------------------- */
+
+    loadNotices();
+
+  </script>
+
+</body>
+</html> 

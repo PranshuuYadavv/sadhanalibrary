@@ -1,0 +1,1357 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Sadhana Library | Study • Focus • Success</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, "Noto Sans Devanagari", sans-serif;
+      background: #f7f9fc;
+      color: #172033;
+      line-height: 1.6;
+    }
+
+    /* =========================
+       NAVBAR
+    ========================= */
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+
+      background: rgba(10, 29, 57, 0.96);
+      backdrop-filter: blur(12px);
+
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .nav {
+      max-width: 1180px;
+      margin: auto;
+
+      padding: 14px 22px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: white;
+    }
+
+    .brand-icon {
+      width: 46px;
+      height: 46px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 14px;
+
+      background: linear-gradient(135deg, #4f8cff, #7c5cff);
+
+      font-size: 24px;
+
+      box-shadow: 0 8px 25px rgba(79,140,255,0.25);
+    }
+
+    .brand-name {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+
+    .brand-tag {
+      font-size: 11px;
+      color: #b9c8df;
+      margin-top: 1px;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-link {
+      color: white;
+      text-decoration: none;
+
+      padding: 10px 16px;
+
+      border-radius: 10px;
+
+      font-size: 14px;
+      font-weight: 700;
+
+      border: 1px solid rgba(255,255,255,0.18);
+
+      transition: 0.25s;
+    }
+
+    .nav-link:hover {
+      background: rgba(255,255,255,0.1);
+      transform: translateY(-2px);
+    }
+
+    .nav-student {
+      background: white;
+      color: #173b73;
+    }
+
+    .nav-student:hover {
+      background: #edf4ff;
+    }
+
+    /* =========================
+       HERO
+    ========================= */
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+
+      min-height: 650px;
+
+      display: flex;
+      align-items: center;
+
+      background:
+        radial-gradient(circle at 85% 20%, rgba(86,141,255,0.35), transparent 30%),
+        radial-gradient(circle at 10% 80%, rgba(124,92,255,0.20), transparent 30%),
+        linear-gradient(135deg, #081b38 0%, #102f63 48%, #245aa0 100%);
+
+      color: white;
+    }
+
+    .hero::before {
+      content: "";
+
+      position: absolute;
+
+      width: 500px;
+      height: 500px;
+
+      border-radius: 50%;
+
+      border: 1px solid rgba(255,255,255,0.08);
+
+      right: -180px;
+      top: -180px;
+    }
+
+    .hero::after {
+      content: "";
+
+      position: absolute;
+
+      width: 350px;
+      height: 350px;
+
+      border-radius: 50%;
+
+      border: 1px solid rgba(255,255,255,0.06);
+
+      left: -170px;
+      bottom: -180px;
+    }
+
+    .hero-container {
+      width: 100%;
+      max-width: 1180px;
+
+      margin: auto;
+
+      padding: 90px 22px;
+
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+
+      align-items: center;
+
+      gap: 60px;
+
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+
+      padding: 8px 14px;
+
+      border-radius: 50px;
+
+      background: rgba(255,255,255,0.10);
+
+      border: 1px solid rgba(255,255,255,0.16);
+
+      color: #dce8ff;
+
+      font-size: 13px;
+      font-weight: 700;
+
+      margin-bottom: 22px;
+    }
+
+    .hero h1 {
+      font-size: clamp(42px, 6vw, 70px);
+
+      line-height: 1.08;
+
+      letter-spacing: -2px;
+
+      margin-bottom: 22px;
+    }
+
+    .hero h1 .highlight {
+      display: block;
+
+      background: linear-gradient(90deg, #ffffff, #a9c9ff);
+
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-description {
+      max-width: 650px;
+
+      font-size: 18px;
+
+      color: #d4e0f2;
+
+      line-height: 1.8;
+
+      margin-bottom: 30px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+
+      padding: 14px 22px;
+
+      border-radius: 12px;
+
+      text-decoration: none;
+
+      font-size: 14px;
+      font-weight: 800;
+
+      transition: 0.25s;
+
+      border: 1px solid transparent;
+    }
+
+    .btn-primary {
+      background: white;
+      color: #173b73;
+
+      box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 35px rgba(0,0,0,0.25);
+    }
+
+    .btn-secondary {
+      color: white;
+      border-color: rgba(255,255,255,0.3);
+      background: rgba(255,255,255,0.08);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.15);
+      transform: translateY(-3px);
+    }
+
+    /* HERO CARD */
+
+    .hero-card {
+      position: relative;
+
+      padding: 30px;
+
+      border-radius: 26px;
+
+      background: rgba(255,255,255,0.09);
+
+      border: 1px solid rgba(255,255,255,0.16);
+
+      backdrop-filter: blur(16px);
+
+      box-shadow: 0 25px 70px rgba(0,0,0,0.2);
+    }
+
+    .hero-card-top {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+
+      padding-bottom: 22px;
+
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+
+      margin-bottom: 22px;
+    }
+
+    .hero-card-icon {
+      width: 58px;
+      height: 58px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 17px;
+
+      background: rgba(255,255,255,0.12);
+
+      font-size: 30px;
+    }
+
+    .hero-card h3 {
+      font-size: 21px;
+    }
+
+    .hero-card small {
+      color: #b9c8df;
+    }
+
+    .hero-stat {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+
+      padding: 15px;
+
+      border-radius: 14px;
+
+      background: rgba(255,255,255,0.07);
+
+      margin-bottom: 12px;
+    }
+
+    .hero-stat-icon {
+      width: 42px;
+      height: 42px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 12px;
+
+      background: rgba(255,255,255,0.10);
+
+      font-size: 20px;
+    }
+
+    .hero-stat strong {
+      display: block;
+      font-size: 14px;
+    }
+
+    .hero-stat span {
+      color: #b9c8df;
+      font-size: 12px;
+    }
+
+    /* =========================
+       COMMON SECTION
+    ========================= */
+
+    .section {
+      max-width: 1180px;
+
+      margin: auto;
+
+      padding: 90px 22px;
+    }
+
+    .section-heading {
+      text-align: center;
+
+      max-width: 700px;
+
+      margin: 0 auto 45px;
+    }
+
+    .section-label {
+      color: #356fd1;
+
+      font-size: 13px;
+
+      font-weight: 800;
+
+      text-transform: uppercase;
+
+      letter-spacing: 1.5px;
+
+      margin-bottom: 8px;
+    }
+
+    .section-heading h2 {
+      font-size: 36px;
+
+      color: #14284a;
+
+      margin-bottom: 10px;
+    }
+
+    .section-heading p {
+      color: #6d7788;
+
+      font-size: 15px;
+    }
+
+    /* =========================
+       FEATURES
+    ========================= */
+
+    .features {
+      display: grid;
+
+      grid-template-columns: repeat(4, 1fr);
+
+      gap: 18px;
+    }
+
+    .feature {
+      background: white;
+
+      border: 1px solid #e7ecf3;
+
+      border-radius: 20px;
+
+      padding: 28px 22px;
+
+      box-shadow: 0 8px 30px rgba(20,40,74,0.05);
+
+      transition: 0.3s;
+    }
+
+    .feature:hover {
+      transform: translateY(-7px);
+
+      box-shadow: 0 18px 40px rgba(20,40,74,0.10);
+    }
+
+    .feature-icon {
+      width: 58px;
+      height: 58px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 16px;
+
+      background: #edf4ff;
+
+      font-size: 27px;
+
+      margin-bottom: 20px;
+    }
+
+    .feature h3 {
+      color: #172d52;
+
+      font-size: 18px;
+
+      margin-bottom: 9px;
+    }
+
+    .feature p {
+      color: #6d7788;
+
+      font-size: 14px;
+
+      line-height: 1.6;
+    }
+
+    /* =========================
+       ABOUT
+    ========================= */
+
+    .about-section {
+      background: #eef4fb;
+    }
+
+    .about-wrapper {
+      max-width: 1180px;
+
+      margin: auto;
+
+      padding: 90px 22px;
+
+      display: grid;
+
+      grid-template-columns: 1fr 1fr;
+
+      gap: 60px;
+
+      align-items: center;
+    }
+
+    .about-label {
+      color: #356fd1;
+
+      font-weight: 800;
+
+      font-size: 13px;
+
+      text-transform: uppercase;
+
+      letter-spacing: 1.5px;
+    }
+
+    .about h2 {
+      color: #14284a;
+
+      font-size: 38px;
+
+      line-height: 1.2;
+
+      margin: 10px 0 18px;
+    }
+
+    .about p {
+      color: #657186;
+
+      font-size: 16px;
+
+      line-height: 1.8;
+
+      margin-bottom: 22px;
+    }
+
+    .about-points {
+      display: grid;
+
+      grid-template-columns: 1fr 1fr;
+
+      gap: 12px;
+    }
+
+    .about-point {
+      padding: 14px;
+
+      border-radius: 13px;
+
+      background: white;
+
+      border: 1px solid #e2e9f2;
+
+      font-size: 14px;
+
+      font-weight: 700;
+
+      color: #243a5d;
+    }
+
+    .about-card {
+      background: linear-gradient(145deg, #102f63, #2862a8);
+
+      color: white;
+
+      padding: 35px;
+
+      border-radius: 25px;
+
+      box-shadow: 0 20px 45px rgba(23,59,115,0.20);
+    }
+
+    .about-card-icon {
+      font-size: 45px;
+
+      margin-bottom: 15px;
+    }
+
+    .about-card h3 {
+      font-size: 25px;
+
+      margin-bottom: 12px;
+    }
+
+    .about-card p {
+      color: #dce8f7;
+
+      font-size: 14px;
+    }
+
+    /* =========================
+       LOCATION
+    ========================= */
+
+    .location-box {
+      display: grid;
+
+      grid-template-columns: 1fr 1fr;
+
+      gap: 20px;
+    }
+
+    .location-card {
+      background: white;
+
+      border: 1px solid #e7ecf3;
+
+      border-radius: 20px;
+
+      padding: 30px;
+
+      box-shadow: 0 8px 30px rgba(20,40,74,0.05);
+    }
+
+    .location-card h3 {
+      color: #173b73;
+
+      margin-bottom: 14px;
+
+      font-size: 21px;
+    }
+
+    .location-card p {
+      color: #657186;
+
+      line-height: 1.8;
+
+      font-size: 15px;
+    }
+
+    .contact-number {
+      color: #173b73 !important;
+
+      font-size: 22px !important;
+
+      font-weight: 800;
+    }
+
+    /* =========================
+       CTA
+    ========================= */
+
+    .cta {
+      max-width: 1120px;
+
+      margin: 0 auto 80px;
+
+      padding: 60px 25px;
+
+      border-radius: 28px;
+
+      text-align: center;
+
+      color: white;
+
+      background:
+        radial-gradient(circle at top right, rgba(255,255,255,0.12), transparent 30%),
+        linear-gradient(135deg, #102f63, #2862a8);
+
+      box-shadow: 0 20px 50px rgba(23,59,115,0.18);
+    }
+
+    .cta h2 {
+      font-size: 34px;
+
+      margin-bottom: 10px;
+    }
+
+    .cta p {
+      color: #dbe7f7;
+
+      margin-bottom: 25px;
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    footer {
+      background: #081b38;
+
+      color: white;
+
+      padding: 45px 20px 25px;
+
+      text-align: center;
+    }
+
+    .footer-brand {
+      font-size: 22px;
+
+      font-weight: 800;
+
+      margin-bottom: 7px;
+    }
+
+    footer p {
+      color: #aebed4;
+
+      font-size: 13px;
+
+      margin: 6px 0;
+    }
+
+    .copyright {
+      margin-top: 25px;
+
+      padding-top: 20px;
+
+      border-top: 1px solid rgba(255,255,255,0.10);
+
+      color: #8294ad;
+
+      font-size: 12px;
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 900px) {
+
+      .hero-container {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .hero {
+        min-height: auto;
+      }
+
+      .hero-card {
+        max-width: 600px;
+        width: 100%;
+        margin: auto;
+      }
+
+      .features {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .about-wrapper {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+
+      .nav {
+        padding: 12px 15px;
+      }
+
+      .brand-name {
+        font-size: 17px;
+      }
+
+      .brand-tag {
+        font-size: 10px;
+      }
+
+      .brand-icon {
+        width: 42px;
+        height: 42px;
+        font-size: 21px;
+      }
+
+      .nav-link {
+        padding: 8px 10px;
+        font-size: 12px;
+      }
+
+      .hero-container {
+        padding: 70px 18px;
+      }
+
+      .hero h1 {
+        font-size: 42px;
+      }
+
+      .hero-description {
+        font-size: 15px;
+      }
+
+      .hero-buttons {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .features {
+        grid-template-columns: 1fr;
+      }
+
+      .section {
+        padding: 65px 18px;
+      }
+
+      .section-heading h2 {
+        font-size: 29px;
+      }
+
+      .about-wrapper {
+        padding: 65px 18px;
+      }
+
+      .about h2 {
+        font-size: 30px;
+      }
+
+      .about-points {
+        grid-template-columns: 1fr;
+      }
+
+      .location-box {
+        grid-template-columns: 1fr;
+      }
+
+      .cta {
+        margin: 0 15px 60px;
+        padding: 45px 20px;
+      }
+
+      .cta h2 {
+        font-size: 27px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- =========================
+       NAVBAR
+  ========================== -->
+
+  <header>
+
+    <div class="nav">
+
+      <a href="/" class="brand">
+
+        <div class="brand-icon">
+          📚
+        </div>
+
+        <div>
+          <div class="brand-name">
+            Sadhana Library
+          </div>
+
+          <div class="brand-tag">
+            Study • Focus • Success
+          </div>
+        </div>
+
+      </a>
+
+      <div class="nav-actions">
+
+        <a
+          href="/admin-login.html"
+          class="nav-link"
+        >
+          Admin
+        </a>
+
+        <a
+          href="/student-login.html"
+          class="nav-link nav-student"
+        >
+          Student Login
+        </a>
+
+      </div>
+
+    </div>
+
+  </header>
+
+
+  <!-- =========================
+       HERO
+  ========================== -->
+
+  <section class="hero">
+
+    <div class="hero-container">
+
+      <div>
+
+        <div class="hero-badge">
+          📖 Your Dedicated Study Space
+        </div>
+
+        <h1>
+          पढ़ाई का माहौल,
+          <span class="highlight">
+            सफलता की शुरुआत।
+          </span>
+        </h1>
+
+        <p class="hero-description">
+          Sadhana Library में शांत, सुविधाजनक और focused
+          study environment के साथ अपनी preparation को
+          बेहतर बनाएं और अपने goals पर पूरा ध्यान दें।
+        </p>
+
+        <div class="hero-buttons">
+
+          <a
+            href="/student-login.html"
+            class="btn btn-primary"
+          >
+            👨‍🎓 Student Login
+          </a>
+
+          <a
+            href="/admin-login.html"
+            class="btn btn-secondary"
+          >
+            🔐 Admin Login
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <!-- HERO CARD -->
+
+      <div class="hero-card">
+
+        <div class="hero-card-top">
+
+          <div class="hero-card-icon">
+            📚
+          </div>
+
+          <div>
+
+            <h3>
+              Sadhana Library
+            </h3>
+
+            <small>
+              Focus • Discipline • Progress
+            </small>
+
+          </div>
+
+        </div>
+
+
+        <div class="hero-stat">
+
+          <div class="hero-stat-icon">
+            💺
+          </div>
+
+          <div>
+            <strong>
+              Dedicated Study Seats
+            </strong>
+
+            <span>
+              Comfortable study environment
+            </span>
+          </div>
+
+        </div>
+
+
+        <div class="hero-stat">
+
+          <div class="hero-stat-icon">
+            📅
+          </div>
+
+          <div>
+            <strong>
+              Attendance Tracking
+            </strong>
+
+            <span>
+              Track your daily attendance
+            </span>
+          </div>
+
+        </div>
+
+
+        <div class="hero-stat">
+
+          <div class="hero-stat-icon">
+            💳
+          </div>
+
+          <div>
+            <strong>
+              Easy Fee Payment
+            </strong>
+
+            <span>
+              UPI payment & UTR verification
+            </span>
+          </div>
+
+        </div>
+
+
+        <div class="hero-stat">
+
+          <div class="hero-stat-icon">
+            📢
+          </div>
+
+          <div>
+            <strong>
+              Important Notices
+            </strong>
+
+            <span>
+              Stay updated with library announcements
+            </span>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       FEATURES
+  ========================== -->
+
+  <section class="section">
+
+    <div class="section-heading">
+
+      <div class="section-label">
+        Our Facilities
+      </div>
+
+      <h2>
+        Everything You Need to Study
+      </h2>
+
+      <p>
+        आपकी study journey को आसान, focused और व्यवस्थित
+        बनाने के लिए जरूरी सुविधाएं।
+      </p>
+
+    </div>
+
+
+    <div class="features">
+
+
+      <div class="feature">
+
+        <div class="feature-icon">
+          💺
+        </div>
+
+        <h3>
+          Study Seats
+        </h3>
+
+        <p>
+          Dedicated seating और comfortable study
+          environment के साथ अपनी preparation पर focus करें।
+        </p>
+
+      </div>
+
+
+      <div class="feature">
+
+        <div class="feature-icon">
+          📅
+        </div>
+
+        <h3>
+          Attendance
+        </h3>
+
+        <p>
+          अपनी daily attendance और attendance percentage
+          को आसानी से track करें।
+        </p>
+
+      </div>
+
+
+      <div class="feature">
+
+        <div class="feature-icon">
+          💳
+        </div>
+
+        <h3>
+          Easy Payment
+        </h3>
+
+        <p>
+          Direct UPI payment करें और UTR के माध्यम से
+          payment verification की सुविधा पाएं।
+        </p>
+
+      </div>
+
+
+      <div class="feature">
+
+        <div class="feature-icon">
+          📢
+        </div>
+
+        <h3>
+          Latest Notices
+        </h3>
+
+        <p>
+          Library के important announcements और updates
+          student dashboard पर देखें।
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       ABOUT
+  ========================== -->
+
+  <section class="about-section">
+
+    <div class="about-wrapper">
+
+      <div class="about">
+
+        <div class="about-label">
+          Why Sadhana Library?
+        </div>
+
+        <h2>
+          Focus आपकी पढ़ाई पर,
+          बाकी हम संभालेंगे।
+        </h2>
+
+        <p>
+          Sadhana Library का उद्देश्य students को ऐसा
+          शांत और व्यवस्थित study environment देना है
+          जहाँ वे अपनी preparation पर पूरी तरह ध्यान दे सकें।
+        </p>
+
+        <div class="about-points">
+
+          <div class="about-point">
+            🎯 Focused Environment
+          </div>
+
+          <div class="about-point">
+            💺 Dedicated Seating
+          </div>
+
+          <div class="about-point">
+            📱 Student Dashboard
+          </div>
+
+          <div class="about-point">
+            📢 Regular Updates
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="about-card">
+
+        <div class="about-card-icon">
+          📖
+        </div>
+
+        <h3>
+          आपकी Preparation,
+          आपका Focus.
+        </h3>
+
+        <p>
+          एक disciplined study routine बनाने के लिए
+          Sadhana Library में अपने daily study goals पर
+          ध्यान दें और लगातार progress करते रहें।
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       LOCATION
+  ========================== -->
+
+  <section class="section">
+
+    <div class="section-heading">
+
+      <div class="section-label">
+        Visit Us
+      </div>
+
+      <h2>
+        Library Information
+      </h2>
+
+      <p>
+        हमें visit करें और अपनी focused study routine की शुरुआत करें।
+      </p>
+
+    </div>
+
+
+    <div class="location-box">
+
+
+      <div class="location-card">
+
+        <h3>
+          📍 Sadhana Library
+        </h3>
+
+        <p>
+          <strong>🏫 Location</strong><br><br>
+
+          Pandey Coaching Centre,<br>
+          15A/11 G Block, Gujaini,<br>
+          Kanpur – 208022
+        </p>
+
+      </div>
+
+
+      <div class="location-card">
+
+        <h3>
+          📞 Contact
+        </h3>
+
+        <p>
+          Library से जुड़ी जानकारी के लिए
+          दिए गए mobile number पर contact करें।
+        </p>
+
+        <p class="contact-number">
+          7652026852
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       CTA
+  ========================== -->
+
+  <section class="cta">
+
+    <h2>
+      Ready to Focus on Your Goal?
+    </h2>
+
+    <p>
+      अपने Student Dashboard में login करके अपनी
+      study journey शुरू करें।
+    </p>
+
+    <a
+      href="/student-login.html"
+      class="btn btn-primary"
+    >
+      👨‍🎓 Go to Student Login
+    </a>
+
+  </section>
+
+
+  <!-- =========================
+       FOOTER
+  ========================== -->
+
+  <footer>
+
+    <div class="footer-brand">
+      📚 Sadhana Library
+    </div>
+
+    <p>
+      Study • Focus • Success
+    </p>
+
+    <p>
+      📍 Pandey Coaching Centre, 15A/11 G Block,
+      Gujaini, Kanpur – 208022
+    </p>
+
+    <p>
+      📞 7652026852
+    </p>
+
+    <div class="copyright">
+      © 2026 Sadhana Library. All Rights Reserved.
+    </div>
+
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Payment Management - Sadhana Library</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f4f7fb;
+      color: #172033;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #1d4ed8, #2563eb);
+      color: white;
+      padding: 22px 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      box-shadow: 0 4px 15px rgba(0,0,0,.12);
+    }
+
+    .header h1 {
+      font-size: 24px;
+    }
+
+    .header p {
+      margin-top: 5px;
+      opacity: .9;
+      font-size: 14px;
+    }
+
+    .dashboard-btn {
+      text-decoration: none;
+      background: white;
+      color: #1d4ed8;
+      padding: 10px 16px;
+      border-radius: 10px;
+      font-weight: bold;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1400px;
+      margin: 30px auto;
+    }
+
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-bottom: 25px;
+    }
+
+    .card {
+      background: white;
+      padding: 22px;
+      border-radius: 16px;
+      box-shadow: 0 5px 18px rgba(0,0,0,.07);
+    }
+
+    .card-title {
+      color: #64748b;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .card-value {
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .total {
+      border-left: 5px solid #2563eb;
+    }
+
+    .pending {
+      border-left: 5px solid #f59e0b;
+    }
+
+    .verified {
+      border-left: 5px solid #16a34a;
+    }
+
+    .rejected {
+      border-left: 5px solid #dc2626;
+    }
+
+    .toolbar {
+      background: white;
+      padding: 18px;
+      border-radius: 16px;
+      box-shadow: 0 5px 18px rgba(0,0,0,.07);
+      margin-bottom: 20px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .toolbar select,
+    .toolbar input {
+      padding: 11px 13px;
+      border: 1px solid #d1d5db;
+      border-radius: 9px;
+      font-size: 14px;
+      background: white;
+    }
+
+    .refresh-btn {
+      border: none;
+      background: #2563eb;
+      color: white;
+      padding: 11px 18px;
+      border-radius: 9px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .refresh-btn:hover {
+      background: #1d4ed8;
+    }
+
+    .table-box {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 5px 18px rgba(0,0,0,.07);
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 1000px;
+    }
+
+    th {
+      background: #f8fafc;
+      color: #475569;
+      font-size: 13px;
+      text-align: left;
+      padding: 15px;
+      border-bottom: 1px solid #e5e7eb;
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 15px;
+      border-bottom: 1px solid #eef2f7;
+      font-size: 14px;
+      vertical-align: middle;
+    }
+
+    tr:hover td {
+      background: #fafcff;
+    }
+
+    .student-name {
+      font-weight: bold;
+      color: #1e293b;
+    }
+
+    .mobile {
+      color: #64748b;
+      margin-top: 4px;
+      font-size: 12px;
+    }
+
+    .amount {
+      font-weight: bold;
+      color: #166534;
+      font-size: 15px;
+    }
+
+    .utr {
+      font-family: monospace;
+      color: #475569;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .badge-pending {
+      background: #fff7ed;
+      color: #c2410c;
+    }
+
+    .badge-verified {
+      background: #f0fdf4;
+      color: #15803d;
+    }
+
+    .badge-rejected {
+      background: #fef2f2;
+      color: #b91c1c;
+    }
+
+    .date {
+      white-space: nowrap;
+      color: #475569;
+      font-size: 13px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 7px;
+    }
+
+    .action-btn {
+      border: none;
+      padding: 8px 11px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .verify {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .reject {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .action-btn:hover {
+      opacity: .8;
+    }
+
+    .no-data {
+      text-align: center;
+      padding: 50px 20px;
+      color: #64748b;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: #64748b;
+    }
+
+    @media (max-width: 900px) {
+      .summary {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        width: 94%;
+        margin: 20px auto;
+      }
+
+      .summary {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .card {
+        padding: 16px;
+      }
+
+      .card-value {
+        font-size: 23px;
+      }
+
+      .header {
+        padding: 18px 4%;
+      }
+
+      .header h1 {
+        font-size: 20px;
+      }
+
+      .toolbar {
+        align-items: stretch;
+      }
+
+      .toolbar select,
+      .toolbar input,
+      .refresh-btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="header">
+    <div>
+      <h1>💳 Payment Management</h1>
+      <p>Sadhana Library — Admin Payment Panel</p>
+    </div>
+
+    <a href="/admin-dashboard.html" class="dashboard-btn">
+      ← Dashboard
+    </a>
+  </header>
+
+  <main class="container">
+
+    <section class="summary">
+
+      <div class="card total">
+        <div class="card-title">Total Payments</div>
+        <div class="card-value" id="totalCount">0</div>
+      </div>
+
+      <div class="card pending">
+        <div class="card-title">Pending</div>
+        <div class="card-value" id="pendingCount">0</div>
+      </div>
+
+      <div class="card verified">
+        <div class="card-title">Verified</div>
+        <div class="card-value" id="verifiedCount">0</div>
+      </div>
+
+      <div class="card rejected">
+        <div class="card-title">Rejected</div>
+        <div class="card-value" id="rejectedCount">0</div>
+      </div>
+
+    </section>
+
+    <section class="toolbar">
+
+      <select id="statusFilter" onchange="applyFilters()">
+        <option value="All">All Payments</option>
+        <option value="Pending">Pending</option>
+        <option value="Verified">Verified</option>
+        <option value="Rejected">Rejected</option>
+      </select>
+
+      <input
+        type="month"
+        id="monthFilter"
+        onchange="applyFilters()"
+      >
+
+      <button class="refresh-btn" onclick="loadPayments()">
+        🔄 Refresh
+      </button>
+
+    </section>
+
+    <section class="table-box">
+
+      <div id="loading" class="loading">
+        Loading payments...
+      </div>
+
+      <table id="paymentsTable" style="display:none;">
+
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Student</th>
+            <th>Amount</th>
+            <th>UTR</th>
+            <th>Month</th>
+            <th>Status</th>
+            <th>Date & Time</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody id="paymentsBody"></tbody>
+
+      </table>
+
+      <div id="noData" class="no-data" style="display:none;">
+        No payments found.
+      </div>
+
+    </section>
+
+  </main>
+
+  <script>
+
+    let allPayments = [];
+
+    function escapeHtml(value) {
+      if (value === null || value === undefined) {
+        return "";
+      }
+
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function formatIST(dateString) {
+
+      if (!dateString) {
+        return "-";
+      }
+
+      const utcString = dateString.replace(" ", "T") + "Z";
+      const date = new Date(utcString);
+
+      if (isNaN(date.getTime())) {
+        return escapeHtml(dateString);
+      }
+
+      return new Intl.DateTimeFormat("en-IN", {
+        timeZone: "Asia/Kolkata",
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true
+      }).format(date);
+    }
+
+    function formatMonth(month) {
+
+      if (!month) {
+        return "-";
+      }
+
+      const parts = month.split("-");
+
+      if (parts.length !== 2) {
+        return escapeHtml(month);
+      }
+
+      const date = new Date(
+        Number(parts[0]),
+        Number(parts[1]) - 1,
+        1
+      );
+
+      return date.toLocaleDateString("en-IN", {
+        month: "long",
+        year: "numeric"
+      });
+    }
+
+    function updateSummary(payments) {
+
+      document.getElementById("totalCount").textContent =
+        payments.length;
+
+      document.getElementById("pendingCount").textContent =
+        payments.filter(p => p.status === "Pending").length;
+
+      document.getElementById("verifiedCount").textContent =
+        payments.filter(p => p.status === "Verified").length;
+
+      document.getElementById("rejectedCount").textContent =
+        payments.filter(p => p.status === "Rejected").length;
+    }
+
+    function getStatusBadge(status) {
+
+      if (status === "Verified") {
+        return `<span class="badge badge-verified">✓ Verified</span>`;
+      }
+
+      if (status === "Rejected") {
+        return `<span class="badge badge-rejected">✕ Rejected</span>`;
+      }
+
+      return `<span class="badge badge-pending">⏳ Pending</span>`;
+    }
+
+    function renderPayments(payments) {
+
+      const table = document.getElementById("paymentsTable");
+      const body = document.getElementById("paymentsBody");
+      const noData = document.getElementById("noData");
+
+      body.innerHTML = "";
+
+      if (!payments.length) {
+        table.style.display = "none";
+        noData.style.display = "block";
+        return;
+      }
+
+      noData.style.display = "none";
+      table.style.display = "table";
+
+      payments.forEach(payment => {
+
+        const row = document.createElement("tr");
+
+        let actions = "-";
+
+        if (payment.status === "Pending") {
+
+          actions = `
+            <div class="actions">
+
+              <button
+                class="action-btn verify"
+                onclick="verifyPayment(${Number(payment.id)})">
+                ✓ Verify
+              </button>
+
+              <button
+                class="action-btn reject"
+                onclick="rejectPayment(${Number(payment.id)})">
+                ✕ Reject
+              </button>
+
+            </div>
+          `;
+        }
+
+        row.innerHTML = `
+          <td>
+            <strong>#${escapeHtml(payment.id)}</strong>
+          </td>
+
+          <td>
+            <div class="student-name">
+              ${escapeHtml(payment.student_name || "Unknown")}
+            </div>
+
+            <div class="mobile">
+              ${escapeHtml(payment.mobile || "-")}
+            </div>
+          </td>
+
+          <td>
+            <span class="amount">
+              ₹${Number(payment.amount || 0).toLocaleString("en-IN")}
+            </span>
+          </td>
+
+          <td>
+            <span class="utr">
+              ${escapeHtml(payment.utr || "-")}
+            </span>
+          </td>
+
+          <td>
+            ${escapeHtml(formatMonth(payment.payment_month))}
+          </td>
+
+          <td>
+            ${getStatusBadge(payment.status)}
+          </td>
+
+          <td>
+            <span class="date">
+              ${formatIST(payment.created_at)}
+            </span>
+          </td>
+
+          <td>
+            ${actions}
+          </td>
+        `;
+
+        body.appendChild(row);
+      });
+    }
+
+    function applyFilters() {
+
+      const status =
+        document.getElementById("statusFilter").value;
+
+      const month =
+        document.getElementById("monthFilter").value;
+
+      let filtered = [...allPayments];
+
+      if (status !== "All") {
+        filtered = filtered.filter(
+          payment => payment.status === status
+        );
+      }
+
+      if (month) {
+        filtered = filtered.filter(
+          payment => payment.payment_month === month
+        );
+      }
+
+      renderPayments(filtered);
+    }
+
+    async function loadPayments() {
+
+      const loading =
+        document.getElementById("loading");
+
+      const table =
+        document.getElementById("paymentsTable");
+
+      const noData =
+        document.getElementById("noData");
+
+      loading.style.display = "block";
+      table.style.display = "none";
+      noData.style.display = "none";
+
+      try {
+
+        const response =
+          await fetch("/api/admin/payments");
+
+        if (response.status === 401) {
+          window.location.href = "/admin-login.html";
+          return;
+        }
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(
+            data.error || "Payments load नहीं हुए।"
+          );
+        }
+
+        allPayments =
+          Array.isArray(data) ? data :
+          Array.isArray(data.payments) ? data.payments :
+          [];
+
+        updateSummary(allPayments);
+
+        loading.style.display = "none";
+
+        applyFilters();
+
+      } catch (error) {
+
+        console.error(error);
+
+        loading.textContent =
+          "Payments load करने में समस्या हुई।";
+
+        alert(error.message);
+
+      }
+    }
+
+    async function verifyPayment(id) {
+
+      const confirmVerify =
+        confirm(
+          "क्या आप इस payment को Verify करना चाहते हैं?"
+        );
+
+      if (!confirmVerify) {
+        return;
+      }
+
+      try {
+
+        const response =
+          await fetch(
+            `/api/admin/payments/${id}/verify`,
+            {
+              method: "POST"
+            }
+          );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(
+            data.error || "Payment verify नहीं हुआ।"
+          );
+        }
+
+        alert("Payment successfully verified.");
+
+        await loadPayments();
+
+      } catch (error) {
+
+        console.error(error);
+        alert(error.message);
+
+      }
+    }
+
+    async function rejectPayment(id) {
+
+      const confirmReject =
+        confirm(
+          "क्या आप इस payment को Reject करना चाहते हैं?"
+        );
+
+      if (!confirmReject) {
+        return;
+      }
+
+      try {
+
+        const response =
+          await fetch(
+            `/api/admin/payments/${id}/reject`,
+            {
+              method: "POST"
+            }
+          );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(
+            data.error || "Payment reject नहीं हुआ।"
+          );
+        }
+
+        alert("Payment rejected.");
+
+        await loadPayments();
+
+      } catch (error) {
+
+        console.error(error);
+        alert(error.message);
+
+      }
+    }
+
+    loadPayments();
+
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Attendance - Sadhana Library</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f7fb;
+      color: #1f2937;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #173b73, #2563eb);
+      color: white;
+      padding: 22px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.12);
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 26px;
+    }
+
+    .header p {
+      margin: 6px 0 0;
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .back-btn {
+      text-decoration: none;
+      color: white;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      padding: 11px 17px;
+      border-radius: 10px;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    .page-title h2 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    .page-title p {
+      margin: 7px 0 22px;
+      color: #64748b;
+      font-size: 14px;
+    }
+
+    .controls {
+      background: white;
+      padding: 20px;
+      border-radius: 16px;
+      border: 1px solid #e8edf5;
+      box-shadow: 0 7px 22px rgba(15,23,42,0.06);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: end;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .control-group label {
+      font-size: 13px;
+      font-weight: bold;
+      color: #475569;
+    }
+
+    .date-input {
+      padding: 11px 13px;
+      border: 1px solid #d7deea;
+      border-radius: 9px;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .date-input:focus {
+      border-color: #2563eb;
+    }
+
+    .load-btn {
+      border: none;
+      background: linear-gradient(135deg, #173b73, #2563eb);
+      color: white;
+      padding: 11px 18px;
+      border-radius: 9px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .summary-card {
+      background: white;
+      border: 1px solid #e8edf5;
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: 0 7px 22px rgba(15,23,42,0.06);
+    }
+
+    .summary-card h3 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    .summary-card p {
+      margin: 5px 0 0;
+      color: #64748b;
+      font-size: 13px;
+    }
+
+    #message {
+      min-height: 22px;
+      margin-bottom: 15px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .table-card {
+      background: white;
+      border-radius: 18px;
+      padding: 22px;
+      border: 1px solid #e8edf5;
+      box-shadow: 0 8px 25px rgba(15,23,42,0.07);
+    }
+
+    .table-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    .table-header h3 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    .date-badge {
+      background: #eef4ff;
+      color: #173b73;
+      padding: 7px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+    }
+
+    table {
+      width: 100%;
+      min-width: 850px;
+      border-collapse: collapse;
+    }
+
+    th {
+      background: #173b73;
+      color: white;
+      padding: 14px 12px;
+      font-size: 13px;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 13px 12px;
+      border-bottom: 1px solid #edf1f5;
+      text-align: center;
+      font-size: 14px;
+      background: white;
+    }
+
+    tbody tr:hover td {
+      background: #f8faff;
+    }
+
+    .student-name {
+      font-weight: bold;
+      color: #173b73;
+    }
+
+    .seat-badge {
+      display: inline-block;
+      background: #f1f5f9;
+      color: #334155;
+      padding: 5px 10px;
+      border-radius: 7px;
+      font-weight: bold;
+      font-size: 12px;
+    }
+
+    .status-select {
+      padding: 9px 12px;
+      border: 1px solid #d7deea;
+      border-radius: 8px;
+      font-weight: bold;
+      outline: none;
+      cursor: pointer;
+      background: white;
+    }
+
+    .save-btn {
+      border: none;
+      background: linear-gradient(135deg, #198754, #16a34a);
+      color: white;
+      padding: 9px 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    .empty {
+      padding: 35px !important;
+      color: #64748b;
+      font-weight: bold;
+    }
+
+    @media (max-width: 800px) {
+      .summary {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 650px) {
+      .header {
+        padding: 20px;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .header h1 {
+        font-size: 22px;
+      }
+
+      .back-btn {
+        width: 100%;
+        text-align: center;
+      }
+
+      .container {
+        margin: 20px auto;
+        padding: 0 12px;
+      }
+
+      .summary {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .table-card {
+        padding: 15px;
+      }
+
+      .controls {
+        align-items: stretch;
+      }
+
+      .date-input,
+      .load-btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="header">
+  <div>
+    <h1>📚 Sadhana Library</h1>
+    <p>Daily Attendance Management System</p>
+  </div>
+
+  <a href="/admin-dashboard.html" class="back-btn">
+    ← Back to Dashboard
+  </a>
+</header>
+
+<main class="container">
+
+  <div class="page-title">
+    <h2>📅 Daily Attendance</h2>
+    <p>हर तारीख के लिए students की Present / Absent attendance रखें।</p>
+  </div>
+
+  <section class="controls">
+
+    <div class="control-group">
+      <label for="attendanceDate">Attendance Date</label>
+      <input
+        type="date"
+        id="attendanceDate"
+        class="date-input"
+      >
+    </div>
+
+    <button class="load-btn" onclick="loadAttendance()">
+      🔄 Load Attendance
+    </button>
+
+  </section>
+
+  <section class="summary">
+
+    <div class="summary-card">
+      <h3 id="totalStudents">0</h3>
+      <p>👨‍🎓 Total Students</p>
+    </div>
+
+    <div class="summary-card">
+      <h3 id="presentStudents">0</h3>
+      <p>✅ Present</p>
+    </div>
+
+    <div class="summary-card">
+      <h3 id="absentStudents">0</h3>
+      <p>❌ Absent</p>
+    </div>
+
+    <div class="summary-card">
+      <h3 id="attendancePercentage">0%</h3>
+      <p>📊 Attendance %</p>
+    </div>
+
+  </section>
+
+  <div id="message"></div>
+
+  <section class="table-card">
+
+    <div class="table-header">
+      <h3>📋 Student Attendance</h3>
+
+      <span class="date-badge" id="selectedDate">
+        —
+      </span>
+    </div>
+
+    <div class="table-wrapper">
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Student</th>
+            <th>Mobile</th>
+            <th>Seat</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody id="attendanceTable">
+
+          <tr>
+            <td colspan="6" class="empty">
+              ⏳ Attendance loading...
+            </td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </section>
+
+</main>
+
+<script>
+
+  function getTodayIST() {
+
+    const parts = new Intl.DateTimeFormat("en-CA", {
+      timeZone: "Asia/Kolkata",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit"
+    }).formatToParts(new Date());
+
+    const year = parts.find(
+      p => p.type === "year"
+    ).value;
+
+    const month = parts.find(
+      p => p.type === "month"
+    ).value;
+
+    const day = parts.find(
+      p => p.type === "day"
+    ).value;
+
+    return `${year}-${month}-${day}`;
+  }
+
+
+  function escapeHtml(value) {
+
+    const div = document.createElement("div");
+
+    div.textContent = value ?? "";
+
+    return div.innerHTML;
+  }
+
+
+  function showMessage(text, success = true) {
+
+    const message =
+      document.getElementById("message");
+
+    message.style.color =
+      success ? "#198754" : "#dc2626";
+
+    message.textContent = text;
+
+    setTimeout(() => {
+      message.textContent = "";
+    }, 3000);
+  }
+
+
+  async function loadAttendance() {
+
+    const date =
+      document.getElementById(
+        "attendanceDate"
+      ).value;
+
+    if (!date) {
+      showMessage(
+        "❌ पहले date select करें।",
+        false
+      );
+
+      return;
+    }
+
+    document.getElementById(
+      "selectedDate"
+    ).textContent = date;
+
+
+    try {
+
+      const response =
+        await fetch(
+          `/api/admin/attendance/daily?date=${encodeURIComponent(date)}`,
+          {
+            cache: "no-store"
+          }
+        );
+
+
+      if (response.status === 401) {
+
+        window.location.href =
+          "/admin-login.html";
+
+        return;
+      }
+
+
+      const data =
+        await response.json();
+
+
+      if (!response.ok) {
+
+        throw new Error(
+          data.error ||
+          "Attendance load नहीं हुई।"
+        );
+      }
+
+
+      const students =
+        data.students || [];
+
+
+      updateSummary(students);
+
+
+      const table =
+        document.getElementById(
+          "attendanceTable"
+        );
+
+
+      if (students.length === 0) {
+
+        table.innerHTML = `
+          <tr>
+            <td colspan="6" class="empty">
+              👨‍🎓 कोई student नहीं है।
+            </td>
+          </tr>
+        `;
+
+        return;
+      }
+
+
+      table.innerHTML =
+        students.map(student => `
+
+          <tr>
+
+            <td>
+              <strong>
+                #${student.id}
+              </strong>
+            </td>
+
+
+            <td>
+              <span class="student-name">
+                ${escapeHtml(student.name)}
+              </span>
+            </td>
+
+
+            <td>
+              ${escapeHtml(student.mobile)}
+            </td>
+
+
+            <td>
+              <span class="seat-badge">
+                ${escapeHtml(
+                  student.seat_number || "—"
+                )}
+              </span>
+            </td>
+
+
+            <td>
+
+              <select
+                class="status-select"
+                id="status-${student.id}"
+              >
+
+                <option
+                  value="Present"
+                  ${student.status === "Present" ? "selected" : ""}
+                >
+                  ✅ Present
+                </option>
+
+                <option
+                  value="Absent"
+                  ${student.status === "Absent" ? "selected" : ""}
+                >
+                  ❌ Absent
+                </option>
+
+              </select>
+
+            </td>
+
+
+            <td>
+
+              <button
+                class="save-btn"
+                onclick="saveAttendance(${student.id})"
+              >
+                ✓ Save
+              </button>
+
+            </td>
+
+          </tr>
+
+        `).join("");
+
+    }
+
+
+    catch (error) {
+
+      console.error(error);
+
+      document.getElementById(
+        "attendanceTable"
+      ).innerHTML = `
+        <tr>
+          <td colspan="6" class="empty">
+            ❌ Attendance load नहीं हो सकी।
+          </td>
+        </tr>
+      `;
+
+      showMessage(
+        error.message ||
+        "Server से connection नहीं हो पाया।",
+        false
+      );
+    }
+
+  }
+
+
+  function updateSummary(students) {
+
+    const total =
+      students.length;
+
+    const present =
+      students.filter(
+        student =>
+          student.status === "Present"
+      ).length;
+
+    const absent =
+      total - present;
+
+    const percentage =
+      total > 0
+        ? Math.round(
+            (present / total) * 100
+          )
+        : 0;
+
+
+    document.getElementById(
+      "totalStudents"
+    ).textContent = total;
+
+
+    document.getElementById(
+      "presentStudents"
+    ).textContent = present;
+
+
+    document.getElementById(
+      "absentStudents"
+    ).textContent = absent;
+
+
+    document.getElementById(
+      "attendancePercentage"
+    ).textContent =
+      percentage + "%";
+  }
+
+
+  async function saveAttendance(studentId) {
+
+    const date =
+      document.getElementById(
+        "attendanceDate"
+      ).value;
+
+
+    const select =
+      document.getElementById(
+        `status-${studentId}`
+      );
+
+
+    if (!date || !select) {
+
+      showMessage(
+        "❌ Date या status missing है।",
+        false
+      );
+
+      return;
+    }
+
+
+    const status =
+      select.value;
+
+
+    try {
+
+      const response =
+        await fetch(
+          "/api/admin/attendance/daily",
+          {
+            method: "POST",
+
+            headers: {
+              "Content-Type":
+                "application/json"
+            },
+
+            body: JSON.stringify({
+
+              student_id:
+                studentId,
+
+              attendance_date:
+                date,
+
+              status:
+                status
+
+            })
+          }
+        );
+
+
+      const data =
+        await response.json();
+
+
+      if (response.status === 401) {
+
+        window.location.href =
+          "/admin-login.html";
+
+        return;
+      }
+
+
+      if (!response.ok) {
+
+        throw new Error(
+          data.error ||
+          "Attendance save नहीं हुई।"
+        );
+      }
+
+
+      showMessage(
+        "✅ Daily attendance save हो गई।"
+      );
+
+
+      loadAttendance();
+
+    }
+
+
+    catch (error) {
+
+      console.error(error);
+
+      showMessage(
+        "❌ " +
+        (
+          error.message ||
+          "Server से connection नहीं हो पाया।"
+        ),
+        false
+      );
+    }
+
+  }
+
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+      document.getElementById(
+        "attendanceDate"
+      ).value = getTodayIST();
+
+      loadAttendance();
+
+    }
+  );
+
+</script>
+
+</body>
+</html>
