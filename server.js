@@ -15,7 +15,20 @@ if (!process.env.SESSION_SECRET || process.env.SESSION_SECRET.length < 32) {
 
 const db = new Database("sadhana.db");
 
+db.exec(`
+CREATE TABLE IF NOT EXISTS admins (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  username TEXT UNIQUE NOT NULL,
+  password TEXT NOT NULL
+);
 
+CREATE TABLE IF NOT EXISTS students (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+  mobile TEXT UNIQUE NOT NULL,
+  password TEXT NOT NULL
+);
+`);
 // ===============================
 // IST DATE
 // ===============================
