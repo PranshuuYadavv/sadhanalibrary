@@ -288,7 +288,10 @@ app.delete("/api/students/:id", (req, res) => {
 // ===============================
 // STUDENT LOGIN
 // ===============================
-
+// STUDENT LOGIN PAGE
+app.get("/student-login", (req, res) => {
+  res.sendFile(__dirname + "/public/student-login.html");
+});
 app.post("/student-login", (req, res) => {
   const { mobile, password } = req.body;
 
