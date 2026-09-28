@@ -16,6 +16,18 @@ if (!process.env.SESSION_SECRET || process.env.SESSION_SECRET.length < 32) {
 const db = new Database("sadhana.db");
 
 db.exec(`
+  const adminExists = db
+  .prepare("SELECT id FROM admins LIMIT 1")
+  .get();
+
+if (!adminExists) {
+  const hashedPassword = bcrypt.hashSync("devesh@123", 12);
+
+  db.prepare(`
+    INSERT INTO admins (username, password)
+    VALUES (?, ?)
+  `).run("devesh", hashedPassword);
+}
 CREATE TABLE IF NOT EXISTS admins (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   username TEXT UNIQUE NOT NULL,
@@ -83,7 +95,10 @@ app.get("/", (req, res) => {
 // ===============================
 // ADMIN LOGIN
 // ===============================
-
+// ADMIN LOGIN PAGE
+app.get("/admin-login", (req, res) => {
+  res.sendFile(__dirname + "/public/admin-login.html");
+});
 app.post("/admin-login", (req, res) => {
   const { username, password } = req.body;
 
